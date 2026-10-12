@@ -1,128 +1,151 @@
-// Dinesh Singh Portfolio — cinematic interactions (vanilla JS, no dependencies)
+// Dinesh Singh Portfolio — editorial interactions (GSAP-enhanced, graceful no-JS/no-CDN fallback)
 (function () {
   'use strict';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGsap = typeof window.gsap !== 'undefined';
 
-  /* ---- Intro: click to skip, remove from DOM after it plays ---- */
+  /* ---------- INTRO SPLASH ---------- */
   var intro = document.getElementById('intro');
+  var introDone = false;
+  function dismissIntro() {
+    if (introDone || !intro) return;
+    introDone = true;
+    intro.classList.add('done');
+    document.body.style.overflow = '';
+    setTimeout(function () { intro.style.display = 'none'; }, 700);
+  }
   if (intro) {
-    if (reduced) { intro.remove(); }
-    else {
-      intro.addEventListener('click', function () { intro.remove(); });
-      setTimeout(function () { if (intro.parentNode) intro.remove(); }, 3200);
+    document.body.style.overflow = 'hidden';
+    if (!reduced) {
+      setTimeout(dismissIntro, 3200); // auto after letter reveal
+    } else {
+      dismissIntro();
     }
-  }
-
-  /* ---- Nav: shadow + hide on scroll down + mobile menu ---- */
-  var nav = document.getElementById('nav');
-  var lastY = 0;
-  window.addEventListener('scroll', function () {
-    var y = window.scrollY;
-    nav.classList.toggle('scrolled', y > 20);
-    if (y > 400 && y > lastY + 4) nav.classList.add('hide');
-    else if (y < lastY - 4 || y < 400) nav.classList.remove('hide');
-    lastY = y;
-  }, { passive: true });
-
-  var burger = document.getElementById('hamburger');
-  var links = document.getElementById('navLinks');
-  burger.addEventListener('click', function () {
-    var open = links.classList.toggle('open');
-    burger.textContent = open ? '✕' : '☰';
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  links.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      links.classList.remove('open');
-      burger.textContent = '☰';
-      burger.setAttribute('aria-expanded', 'false');
+    var skip = document.getElementById('introSkip');
+    if (skip) skip.addEventListener('click', dismissIntro);
+    var cta = document.getElementById('introCta');
+    if (cta) cta.addEventListener('click', dismissIntro);
+    intro.addEventListener('click', function (e) {
+      if (e.target === intro) dismissIntro();
     });
+  }
+
+  /* ---------- MOBILE NAV ---------- */
+  var burger = document.getElementById('hamburger');
+  var navLinks = document.getElementById('navLinks');
+  if (burger && navLinks) {
+    burger.addEventListener('click', function () {
+      var open = navLinks.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        navLinks.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  /* ---------- ACTIVE NAV LINK ---------- */
+  var sections = ['about', 'skills', 'work', 'certs', 'contact'];
+  var navAnchors = {};
+  sections.forEach(function (id) {
+    var a = document.querySelector('.nav-links a[href="#' + id + '"]');
+    if (a) navAnchors[id] = a;
   });
-
-  /* ---- Scroll reveal (staggered via --rd) ---- */
-  var revealEls = document.querySelectorAll('.reveal');
+  function setActive(id) {
+    Object.keys(navAnchors).forEach(function (k) {
+      navAnchors[k].classList.toggle('active', k === id);
+    });
+  }
   if ('IntersectionObserver' in window && !reduced) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    var navObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) setActive(en.target.id);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add('in'); });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) navObs.observe(el);
+    });
   }
 
-  /* ---- Skill bars fill when visible ---- */
-  var fills = document.querySelectorAll('.fill[data-w]');
-  function fillBars() {
-    fills.forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+  /* ---------- ANIMATED COUNTERS ---------- */
+  function animateCounters() {
+    var nums = document.querySelectorAll('.stat-n[data-count]');
+    nums.forEach(function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      if (reduced || !('IntersectionObserver' in window)) {
+        el.textContent = target + suffix;
+        return;
+      }
+      var done = false;
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting && !done) {
+            done = true;
+            var start = null;
+            function step(ts) {
+              if (!start) start = ts;
+              var p = Math.min((ts - start) / 1200, 1);
+              el.textContent = Math.round(target * p) + suffix;
+              if (p < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      obs.observe(el);
+    });
   }
-  var skillsSec = document.getElementById('skills');
-  if ('IntersectionObserver' in window && !reduced && skillsSec) {
-    var bio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { fillBars(); bio.disconnect(); }
-      });
-    }, { threshold: 0.25 });
-    bio.observe(skillsSec);
-  } else { fillBars(); }
 
-  /* ---- Animated stat counters ---- */
-  var counters = document.querySelectorAll('.stat-n[data-count]');
-  function animateCount(el) {
-    var target = parseInt(el.getAttribute('data-count'), 10);
-    var suffix = el.getAttribute('data-suffix') || '';
-    if (reduced) { el.textContent = target + suffix; return; }
-    var start = null, dur = 1400;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min((ts - start) / dur, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased) + suffix;
-      if (p < 1) requestAnimationFrame(step);
+  /* ---------- SKILL BARS ---------- */
+  function animateBars() {
+    var fills = document.querySelectorAll('.fill[data-w]');
+    fills.forEach(function (f) { f.style.width = '0'; });
+    if (reduced || !('IntersectionObserver' in window)) {
+      fills.forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+      return;
     }
-    requestAnimationFrame(step);
-  }
-  var statsBox = document.querySelector('.hero-stats');
-  if (statsBox && 'IntersectionObserver' in window && !reduced) {
-    var cio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          counters.forEach(animateCount);
-          cio.disconnect();
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.style.width = en.target.getAttribute('data-w') + '%';
+          obs.unobserve(en.target);
         }
       });
     }, { threshold: 0.4 });
-    cio.observe(statsBox);
-  } else {
-    counters.forEach(function (el) {
-      el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || '');
+    fills.forEach(function (f) { obs.observe(f); });
+  }
+
+  /* ---------- GSAP SCROLL REVEALS (progressive enhancement) ---------- */
+  function gsapReveals() {
+    if (!hasGsap || reduced) return;
+    if (typeof window.ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+    // Hero entrance
+    gsap.from('.ht-red', { y: 60, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.15 });
+    gsap.from('.ht-black', { y: 50, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.3 });
+    gsap.from('.hero-sub, .hero-cta, .hero-stats', { y: 34, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.45 });
+    gsap.from('.hero-photo', { x: 70, opacity: 0, duration: 1.1, ease: 'power3.out', delay: 0.55 });
+    // Section reveals
+    var targets = document.querySelectorAll('.sec-title, .sec-sub, .about-text, .about-card, .skill-card, .work-card, .cert-card, .contact-grid > *');
+    targets.forEach(function (el) {
+      gsap.from(el, {
+        y: 44, opacity: 0, duration: 0.85, ease: 'power2.out',
+        scrollTrigger: (typeof window.ScrollTrigger !== 'undefined') ? { trigger: el, start: 'top 88%' } : undefined
+      });
     });
   }
 
-  /* ---- Active nav link highlight ---- */
-  var navMap = {};
-  document.querySelectorAll('.nav-links a[data-nav]').forEach(function (a) {
-    navMap[a.getAttribute('data-nav')] = a;
-  });
-  var sections = document.querySelectorAll('section[id], header[id]');
-  if ('IntersectionObserver' in window) {
-    var nio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting && navMap[e.target.id]) {
-          Object.keys(navMap).forEach(function (k) { navMap[k].classList.remove('active'); });
-          navMap[e.target.id].classList.add('active');
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-    sections.forEach(function (s) { nio.observe(s); });
-  }
-
-  /* ---- Contact form -> opens visitor's email app (no backend needed) ---- */
+  /* ---------- CONTACT FORM (mailto) ---------- */
   var form = document.getElementById('contactForm');
   if (form) {
-    form.addEventListener('submit', function (ev) {
-      ev.preventDefault();
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
       var name = form.name.value.trim();
       var email = form.email.value.trim();
       var msg = form.message.value.trim();
@@ -130,5 +153,13 @@
       var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
       window.location.href = 'mailto:dm7178072@gmail.com?subject=' + subject + '&body=' + body;
     });
+  }
+
+  animateCounters();
+  animateBars();
+  if (document.readyState === 'complete') {
+    gsapReveals();
+  } else {
+    window.addEventListener('load', gsapReveals);
   }
 })();
