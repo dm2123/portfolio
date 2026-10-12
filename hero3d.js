@@ -36,7 +36,7 @@
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
-    var CAM_Z = 14;
+    var CAM_Z = 11; // closer camera: shapes fill the frame, front-and-center WOW
     camera.position.set(0, -1.1, CAM_Z); // slight low angle: cinematic feel
     camera.lookAt(0, 0.5, 0);
 
@@ -49,8 +49,8 @@
     var rim = new THREE.DirectionalLight(0xdfe8ff, 1.6); // cool rim from back-left: edge definition
     rim.position.set(-8, 4, -7);
     scene.add(rim);
-    var voltLight = new THREE.PointLight(0x00e07f, 60, 45, 1.8);
-    voltLight.position.set(-6, 3, 5);
+    var voltLight = new THREE.PointLight(0x00e07f, 95, 45, 1.8);
+    voltLight.position.set(-4, 3, 5);
     scene.add(voltLight);
 
     var world = new THREE.Group();
@@ -61,22 +61,22 @@
       crimsonMetal: new THREE.MeshPhysicalMaterial({
         color: 0xC8102E, metalness: 0.62, roughness: 0.27,
         clearcoat: 0.65, clearcoatRoughness: 0.22,
-        emissive: 0x2a0208, emissiveIntensity: 0.4
+        emissive: 0x7a0a18, emissiveIntensity: 0.9 // punchy crimson glow
       }),
       crimsonWire: new THREE.MeshStandardMaterial({
-        color: 0xC8102E, wireframe: true, transparent: true, opacity: 0.5,
+        color: 0xC8102E, wireframe: true, transparent: true, opacity: 0.68,
         roughness: 0.4, metalness: 0.3
       }),
       voltGlow: new THREE.MeshStandardMaterial({
-        color: 0x00E07F, emissive: 0x00E07F, emissiveIntensity: 0.9,
+        color: 0x00E07F, emissive: 0x00E07F, emissiveIntensity: 1.7, // vivid volt
         roughness: 0.3, metalness: 0.1
       }),
       voltWire: new THREE.MeshStandardMaterial({
-        color: 0x00E07F, wireframe: true, transparent: true, opacity: 0.65,
-        emissive: 0x00E07F, emissiveIntensity: 0.3
+        color: 0x00E07F, wireframe: true, transparent: true, opacity: 0.8,
+        emissive: 0x00E07F, emissiveIntensity: 0.6
       }),
       inkWire: new THREE.MeshStandardMaterial({
-        color: 0x1a1a1a, wireframe: true, transparent: true, opacity: 0.35,
+        color: 0x1a1a1a, wireframe: true, transparent: true, opacity: 0.5,
         roughness: 0.5, metalness: 0.4
       }),
       creamSatin: new THREE.MeshStandardMaterial({
@@ -84,14 +84,16 @@
       })
     };
 
-    // ---- floating geometries: balanced composition, breathing space ----
+    // ---- floating geometries: BOLD composition — big, front-and-center, dramatic ----
+    // (canvas renders behind hero content, so large shapes = dramatic backdrop, text stays readable)
     var shapes = [
-      { geo: new THREE.TorusKnotGeometry(1.05, 0.3, 110, 14), mat: 'crimsonMetal', pos: [7.6, 1.4, -2], spd: [0.0018, 0.0026] },
-      { geo: new THREE.IcosahedronGeometry(1.5, 0), mat: 'creamSatin', pos: [-7.8, -1.6, -3], spd: [0.0012, 0.0018] },
-      { geo: new THREE.OctahedronGeometry(1.0, 0), mat: 'voltGlow', pos: [-5.2, 2.8, -1], spd: [0.0024, 0.0014] },
-      { geo: new THREE.IcosahedronGeometry(0.85, 1), mat: 'inkWire', pos: [6.0, -2.8, -1.5], spd: [0.0016, 0.0022] },
-      { geo: new THREE.TorusGeometry(0.9, 0.26, 18, 40), mat: 'crimsonWire', pos: [2.6, 3.1, -3.5], spd: [0.002, 0.0012] },
-      { geo: new THREE.TetrahedronGeometry(0.75, 0), mat: 'voltWire', pos: [-2.6, -3.1, -2.5], spd: [0.0028, 0.002] }
+      // hero centerpiece: giant torus knot, fast spin, upper-center
+      { geo: new THREE.TorusKnotGeometry(1.9, 0.52, 120, 16), mat: 'crimsonMetal', pos: [2.8, 1.8, -1.5], spd: [0.0052, 0.0072] },
+      { geo: new THREE.IcosahedronGeometry(2.6, 0), mat: 'creamSatin', pos: [-4.4, -1.6, -2.5], spd: [0.0032, 0.0046] },
+      { geo: new THREE.OctahedronGeometry(1.8, 0), mat: 'voltGlow', pos: [-3.2, 2.8, -1], spd: [0.0062, 0.0036] },
+      { geo: new THREE.IcosahedronGeometry(1.5, 1), mat: 'inkWire', pos: [4.6, -2.6, -1.5], spd: [0.0042, 0.0056] },
+      { geo: new THREE.TorusGeometry(1.55, 0.42, 18, 44), mat: 'crimsonWire', pos: [0.6, 3.4, -2.5], spd: [0.005, 0.003] },
+      { geo: new THREE.TetrahedronGeometry(1.35, 0), mat: 'voltWire', pos: [-1.6, -3.4, -2], spd: [0.007, 0.005] }
     ];
     if (isMobile) shapes = shapes.slice(0, 3); // half the objects on mobile
 
@@ -119,17 +121,17 @@
     starGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     starGeo.setAttribute('color', new THREE.BufferAttribute(col, 3));
     var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
-      size: 0.085, vertexColors: true, transparent: true, opacity: 0.55,
+      size: 0.11, vertexColors: true, transparent: true, opacity: 0.6,
       depthWrite: false, sizeAttenuation: true
     }));
     world.add(stars);
 
-    // ---- ASSEMBLY intro: parts scattered se start karke ek-ek karke judte hain ----
+    // ---- ASSEMBLY intro: parts door se aakar ek-ek karke judte hain (dramatic) ----
     var asm = { started: false, t0: 0 };
     var voltFlash = 0;
     var asmOffsets = [
-      [10, 7, -9], [-11, 6, -8], [-8, -8, -10],
-      [11, -7, -9], [6, 10, -11], [-6, -11, -10]
+      [16, 11, -14], [-17, 10, -13], [-13, -13, -15],
+      [17, -11, -14], [10, 16, -17], [-10, -17, -15]
     ];
     meshes.forEach(function (m, i) {
       var f = m.position.clone();
@@ -151,7 +153,7 @@
     if (window.__heroAssembleNow) startAssembly(); // event module load se pehle fire ho gaya tha
     setTimeout(startAssembly, 9000); // safety: parts kabhi scattered na rahen
 
-    // ---- mouse: feel like you're inside the 3D space (lerped) ----
+    // ---- mouse: feel like you're inside the 3D space (lerped, responsive) ----
     var mx = 0, my = 0, tx = 0, ty = 0;
     if (finePointer) {
       hero.addEventListener('mousemove', function (e) {
@@ -175,10 +177,10 @@
     function frame() {
       if (!running) return;
       raf = requestAnimationFrame(frame);
-      mx += (tx - mx) * 0.045;
-      my += (ty - my) * 0.045;
-      world.rotation.y = mx * 0.35;
-      world.rotation.x = -my * 0.22;
+      mx += (tx - mx) * 0.075;
+      my += (ty - my) * 0.075;
+      world.rotation.y = mx * 0.62; // bold, responsive mouse parallax
+      world.rotation.x = -my * 0.4;
       for (var i = 0; i < meshes.length; i++) {
         meshes[i].rotation.x += meshes[i].userData.spd[0];
         meshes[i].rotation.y += meshes[i].userData.spd[1];
@@ -211,12 +213,12 @@
           }
         }
         voltFlash *= 0.93;
-        voltLight.intensity = 60 + voltFlash * 110;
+        voltLight.intensity = 95 + voltFlash * 150;
       }
       // subtle dolly-back as you scroll through the hero (cinematic angle maintained)
       var rect = hero.getBoundingClientRect();
       var prog = Math.min(Math.max(-rect.top / Math.max(1, rect.height), 0), 1);
-      camera.position.z = CAM_Z + prog * 6;
+      camera.position.z = CAM_Z + prog * 4;
       camera.lookAt(0, 0.5, 0);
       voltLight.position.x = -6 + Math.sin(performance.now() * 0.0004) * 2.5;
       renderer.render(scene, camera);
