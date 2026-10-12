@@ -80,6 +80,44 @@ a{color:inherit}
 .term-result{margin:0 0 26px}
 .intro-result.show,.term-result.show{opacity:1}
 
+/* ----- intro boot sequence ----- */
+.intro-boot{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);min-height:4.4em;margin:0 0 18px;text-align:left;display:inline-block}
+.boot-line{display:block;white-space:nowrap}
+.boot-line .ok{margin-right:.5em}
+
+/* ----- DS monogram brand mark ----- */
+.mono-mark{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:1.9em;height:1.9em;margin-right:.45em;border-radius:.42em;
+  background:var(--crimson);color:var(--cream);
+  font-family:var(--serif);font-style:italic;font-size:.82em;line-height:1;
+  vertical-align:-.32em;position:relative;
+}
+.mono-mark::after{
+  content:"";position:absolute;right:.28em;bottom:.28em;
+  width:.34em;height:.34em;background:var(--volt);
+}
+
+/* ----- tmux-style status bar ----- */
+body{padding-bottom:34px}
+.statusbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--ink);color:var(--cream);
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.02em;
+  padding:8px 18px;border-top:2px solid var(--crimson);
+}
+.statusbar[hidden]{display:none}
+.sb-user{color:var(--volt);font-weight:600}
+.sb-at{color:var(--muted)}
+.sb-host{color:var(--cream);font-weight:600}
+.sb-sep{color:var(--muted);margin:0 .15em}
+.sb-path{color:var(--crimson);font-weight:700}
+.sb-sec{color:var(--muted);margin-left:.4em}
+.sb-right{display:flex;align-items:center;gap:.5em;color:var(--cream)}
+.sb-dot{width:8px;height:8px;border-radius:50%;background:var(--volt);animation:blink 1.6s steps(1) infinite}
+@media(max-width:560px){.sb-sec{display:none}}
+
 /* ===== INTRO SCANLINE SWEEP ===== */
 .intro{overflow:hidden}
 .intro-scan{
