@@ -278,69 +278,6 @@
     hero.addEventListener('mouseleave', function () { tx = 0; ty = 0; kick(); });
   }
 
-  /* ---------- HERO LIVE PARTICLE FIELD (lightweight canvas) ---------- */
-  function heroParticles() {
-    if (reduced) return;
-    var cv = document.getElementById('heroParticles');
-    var hero = document.querySelector('.hero');
-    if (!cv || !hero || !cv.getContext) return;
-    var ctx = cv.getContext('2d');
-    var W = 0, H = 0, parts = [], running = false;
-    var COLORS = ['200,16,46', '0,224,127', '20,20,20']; // crimson, volt, ink
-    function resize() {
-      var r = hero.getBoundingClientRect();
-      W = cv.width = Math.max(1, Math.floor(r.width));
-      H = cv.height = Math.max(1, Math.floor(r.height));
-      spawn();
-    }
-    function spawn() {
-      parts = [];
-      var n = Math.min(44, Math.floor(W * H / 26000));
-      for (var i = 0; i < n; i++) {
-        parts.push({
-          x: Math.random() * W, y: Math.random() * H,
-          s: 2 + Math.random() * 5,
-          vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28,
-          a: 0.05 + Math.random() * 0.10,
-          c: COLORS[i % 3], shape: i % 3,
-          rot: Math.random() * 6.283, vr: (Math.random() - 0.5) * 0.012
-        });
-      }
-    }
-    function draw(p) {
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot);
-      ctx.fillStyle = 'rgba(' + p.c + ',' + p.a.toFixed(3) + ')';
-      if (p.shape === 0) { ctx.beginPath(); ctx.arc(0, 0, p.s, 0, 6.284); ctx.fill(); }
-      else if (p.shape === 1) { ctx.beginPath(); ctx.moveTo(0, -p.s); ctx.lineTo(p.s, p.s); ctx.lineTo(-p.s, p.s); ctx.closePath(); ctx.fill(); }
-      else { ctx.fillRect(-p.s, -1, p.s * 2, 2); ctx.fillRect(-1, -p.s, 2, p.s * 2); }
-      ctx.restore();
-    }
-    function frame() {
-      if (!running) return;
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < parts.length; i++) {
-        var p = parts[i];
-        p.x += p.vx; p.y += p.vy; p.rot += p.vr;
-        if (p.x < -12) p.x = W + 12; else if (p.x > W + 12) p.x = -12;
-        if (p.y < -12) p.y = H + 12; else if (p.y > H + 12) p.y = -12;
-        draw(p);
-      }
-      requestAnimationFrame(frame);
-    }
-    function start() { if (!running && !document.hidden) { running = true; requestAnimationFrame(frame); } }
-    function stop() { running = false; }
-    var t = null;
-    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resize, 200); });
-    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (en) { en[0].isIntersecting ? start() : stop(); }).observe(hero);
-    }
-    resize();
-    start();
-  }
-
   /* ---------- WORK CARD TILT (desktop pointers only) ---------- */
   function cardTilt() {
     if (reduced || !window.matchMedia('(pointer:fine)').matches) return;
@@ -373,7 +310,6 @@
   animateBars();
   cardTilt();
   heroParallax();
-  heroParticles();
   initStatusBar();
   if (document.readyState === 'complete') {
     gsapReveals();
