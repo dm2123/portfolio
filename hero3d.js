@@ -29,17 +29,26 @@
     var isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
     var finePointer = window.matchMedia('(pointer: fine)').matches;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+    // cinematic professional look: ACES tone mapping + sRGB output
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.06;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
     var CAM_Z = 14;
-    camera.position.set(0, 0, CAM_Z);
+    camera.position.set(0, -1.1, CAM_Z); // slight low angle: cinematic feel
+    camera.lookAt(0, 0.5, 0);
 
-    // ---- lighting: soft studio + one volt-green accent light ----
-    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-    var dir = new THREE.DirectionalLight(0xffffff, 1.15);
-    dir.position.set(6, 8, 10);
-    scene.add(dir);
+    // ---- 3-point studio lighting: key + fill + rim + volt accent ----
+    var key = new THREE.DirectionalLight(0xfff4e0, 2.4); // warm key, top-right
+    key.position.set(6, 9, 8);
+    scene.add(key);
+    var fill = new THREE.HemisphereLight(0xfff9ef, 0xd8c9a8, 0.55); // soft cream fill
+    scene.add(fill);
+    var rim = new THREE.DirectionalLight(0xdfe8ff, 1.6); // cool rim from back-left: edge definition
+    rim.position.set(-8, 4, -7);
+    scene.add(rim);
     var voltLight = new THREE.PointLight(0x00e07f, 60, 45, 1.8);
     voltLight.position.set(-6, 3, 5);
     scene.add(voltLight);
@@ -47,23 +56,42 @@
     var world = new THREE.Group();
     scene.add(world);
 
-    // ---- materials: crimson / volt / ink / cream, solid + wireframe mix ----
+    // ---- premium materials: metallic sheen, emissive glow, satin finishes ----
     var MAT = {
-      crimsonSolid: new THREE.MeshStandardMaterial({ color: 0xC8102E, roughness: 0.35, metalness: 0.15 }),
-      crimsonWire: new THREE.MeshStandardMaterial({ color: 0xC8102E, wireframe: true, transparent: true, opacity: 0.55 }),
-      voltWire: new THREE.MeshStandardMaterial({ color: 0x00E07F, wireframe: true, transparent: true, opacity: 0.7 }),
-      inkWire: new THREE.MeshStandardMaterial({ color: 0x141414, wireframe: true, transparent: true, opacity: 0.38 }),
-      creamSolid: new THREE.MeshStandardMaterial({ color: 0xE9DCC3, roughness: 0.65, metalness: 0.05 })
+      crimsonMetal: new THREE.MeshPhysicalMaterial({
+        color: 0xC8102E, metalness: 0.62, roughness: 0.27,
+        clearcoat: 0.65, clearcoatRoughness: 0.22,
+        emissive: 0x2a0208, emissiveIntensity: 0.4
+      }),
+      crimsonWire: new THREE.MeshStandardMaterial({
+        color: 0xC8102E, wireframe: true, transparent: true, opacity: 0.5,
+        roughness: 0.4, metalness: 0.3
+      }),
+      voltGlow: new THREE.MeshStandardMaterial({
+        color: 0x00E07F, emissive: 0x00E07F, emissiveIntensity: 0.9,
+        roughness: 0.3, metalness: 0.1
+      }),
+      voltWire: new THREE.MeshStandardMaterial({
+        color: 0x00E07F, wireframe: true, transparent: true, opacity: 0.65,
+        emissive: 0x00E07F, emissiveIntensity: 0.3
+      }),
+      inkWire: new THREE.MeshStandardMaterial({
+        color: 0x1a1a1a, wireframe: true, transparent: true, opacity: 0.35,
+        roughness: 0.5, metalness: 0.4
+      }),
+      creamSatin: new THREE.MeshStandardMaterial({
+        color: 0xEADFC6, roughness: 0.42, metalness: 0.28
+      })
     };
 
-    // ---- floating geometries (real 3D, continuously rotating) ----
+    // ---- floating geometries: balanced composition, breathing space ----
     var shapes = [
-      { geo: new THREE.TorusKnotGeometry(1.05, 0.3, 110, 14), mat: 'crimsonWire', pos: [7.4, 1.2, -2], spd: [0.0018, 0.0026] },
-      { geo: new THREE.IcosahedronGeometry(1.5, 0), mat: 'creamSolid', pos: [-7.6, -1.4, -3], spd: [0.0012, 0.0018] },
-      { geo: new THREE.OctahedronGeometry(1.0, 0), mat: 'voltWire', pos: [-5.4, 2.6, -1], spd: [0.0024, 0.0014] },
-      { geo: new THREE.IcosahedronGeometry(0.85, 1), mat: 'inkWire', pos: [5.8, -2.6, -1.5], spd: [0.0016, 0.0022] },
-      { geo: new THREE.TorusGeometry(0.9, 0.26, 18, 40), mat: 'crimsonSolid', pos: [3.4, 2.9, -3.5], spd: [0.002, 0.0012] },
-      { geo: new THREE.TetrahedronGeometry(0.75, 0), mat: 'voltWire', pos: [-2.8, -2.9, -2.5], spd: [0.0028, 0.002] }
+      { geo: new THREE.TorusKnotGeometry(1.05, 0.3, 110, 14), mat: 'crimsonMetal', pos: [7.6, 1.4, -2], spd: [0.0018, 0.0026] },
+      { geo: new THREE.IcosahedronGeometry(1.5, 0), mat: 'creamSatin', pos: [-7.8, -1.6, -3], spd: [0.0012, 0.0018] },
+      { geo: new THREE.OctahedronGeometry(1.0, 0), mat: 'voltGlow', pos: [-5.2, 2.8, -1], spd: [0.0024, 0.0014] },
+      { geo: new THREE.IcosahedronGeometry(0.85, 1), mat: 'inkWire', pos: [6.0, -2.8, -1.5], spd: [0.0016, 0.0022] },
+      { geo: new THREE.TorusGeometry(0.9, 0.26, 18, 40), mat: 'crimsonWire', pos: [2.6, 3.1, -3.5], spd: [0.002, 0.0012] },
+      { geo: new THREE.TetrahedronGeometry(0.75, 0), mat: 'voltWire', pos: [-2.6, -3.1, -2.5], spd: [0.0028, 0.002] }
     ];
     if (isMobile) shapes = shapes.slice(0, 3); // half the objects on mobile
 
@@ -185,10 +213,11 @@
         voltFlash *= 0.93;
         voltLight.intensity = 60 + voltFlash * 110;
       }
-      // subtle dolly-back as you scroll through the hero
+      // subtle dolly-back as you scroll through the hero (cinematic angle maintained)
       var rect = hero.getBoundingClientRect();
       var prog = Math.min(Math.max(-rect.top / Math.max(1, rect.height), 0), 1);
       camera.position.z = CAM_Z + prog * 6;
+      camera.lookAt(0, 0.5, 0);
       voltLight.position.x = -6 + Math.sin(performance.now() * 0.0004) * 2.5;
       renderer.render(scene, camera);
     }
