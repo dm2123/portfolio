@@ -3,25 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dinesh Singh — Web Developer & Cybersecurity Learner</title>
-<meta name="description" content="Dinesh Singh — BCA student at WCTM Gurugram. Web developer and cybersecurity learner building real projects: ConvertX, CyberRakshak, BharatKhoj, Certify Workshops.">
-<script>document.documentElement.classList.add('js');</script>
+<title>Dinesh Singh — Web Developer &amp; Cybersecurity Learner</title>
+<meta name="description" content="Dinesh Singh — BCA student at WCTM Gurugram. Web developer and cybersecurity learner. Selected work: ConvertX, CyberRakshak, BharatKhoj, Certify Workshops.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ===== CINEMATIC INTRO ===== -->
-<div class="intro" id="intro" aria-hidden="true">
+<!-- ===== INTRO SPLASH ===== -->
+<div class="intro" id="intro">
   <div class="intro-inner">
-    <p class="intro-kicker">Portfolio · 2026</p>
-    <div class="intro-name" aria-label="Dinesh Singh">
-      <span class="il" style="--d:.45s">D</span><span class="il" style="--d:.50s">I</span><span class="il" style="--d:.55s">N</span><span class="il" style="--d:.60s">E</span><span class="il" style="--d:.65s">S</span><span class="il" style="--d:.70s">H</span><span class="il intro-gold" style="--d:.78s">S</span><span class="il intro-gold" style="--d:.83s">I</span><span class="il intro-gold" style="--d:.88s">N</span><span class="il intro-gold" style="--d:.93s">G</span><span class="il intro-gold" style="--d:.98s">H</span>
-    </div>
+    <p class="intro-kicker">Portfolio — 2026</p>
+    <h1 class="intro-name" aria-label="Dinesh Singh">
+      <span class="il" style="--d:.35s">D</span><span class="il" style="--d:.40s">I</span><span class="il" style="--d:.45s">N</span><span class="il" style="--d:.50s">E</span><span class="il" style="--d:.55s">S</span><span class="il" style="--d:.60s">H</span><span class="il intro-space" style="--d:.65s">&nbsp;</span><span class="il" style="--d:.70s">S</span><span class="il" style="--d:.75s">I</span><span class="il" style="--d:.80s">N</span><span class="il" style="--d:.85s">G</span><span class="il" style="--d:.90s">H</span>
+    </h1>
     <div class="intro-rule"></div>
-    <p class="intro-sub">Cybersecurity Learner — Web Developer</p>
+    <p class="intro-sub">I build for the web. I learn to defend it.</p>
+    <a href="#work" class="btn-pill" id="introCta">See My Work</a>
+    <button class="intro-skip" id="introSkip" type="button">Skip intro</button>
   </div>
 </div>
 <noscript><style>.intro{display:none}</style></noscript>
@@ -29,145 +30,157 @@
 <!-- ===== NAVBAR ===== -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#home" class="logo">Dinesh<span>Singh</span></a>
+    <a href="#top" class="wordmark">Dinesh<em>Singh</em></a>
     <div class="nav-links" id="navLinks">
-      <a href="#about" data-nav="about">About</a>
-      <a href="#skills" data-nav="skills">Skills</a>
-      <a href="#projects" data-nav="projects">Projects</a>
-      <a href="#certs" data-nav="certs">Certifications</a>
-      <a href="#contact" data-nav="contact">Contact</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#work">Work</a>
+      <a href="#certs">Certifications</a>
+      <a href="#contact">Contact</a>
     </div>
-    <a href="#contact" class="btn btn-gold btn-sm nav-cta">Let's Talk</a>
+    <a href="#contact" class="btn-pill btn-sm nav-cta">Hire Me</a>
     <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">☰</button>
   </div>
 </nav>
 
 <!-- ===== HERO ===== -->
-<header class="hero" id="home">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="grid-lines"></div>
-  </div>
-  <div class="hero-inner">
-    <p class="kicker hero-a" style="--hd:2.15s"><span class="pulse-dot"></span>BCA 2nd Year · WCTM Gurugram</p>
-    <h1 class="hero-title">
-      <span class="hl hero-a" style="--hd:2.3s">I build for the web.</span>
-      <span class="hl gold-text hero-a" style="--hd:2.45s">I learn to defend it.</span>
-    </h1>
-    <p class="hero-sub hero-a" style="--hd:2.6s">I'm <strong>Dinesh Singh</strong> — a web developer and cybersecurity learner crafting real projects: file-tool platforms, security auditors, search engines and workshop systems. No templates. No shortcuts.</p>
-    <div class="hero-cta hero-a" style="--hd:2.75s">
-      <a href="#projects" class="btn btn-gold">See My Work</a>
-      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+<header class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <p class="kicker"><span class="rule-dot"></span>BCA 2nd Year · WCTM Gurugram</p>
+      <h1 class="hero-title">
+        <span class="ht-red">Dinesh.</span>
+        <span class="ht-black">Cybersecurity Learner &amp; Web Developer.</span>
+      </h1>
+      <p class="hero-sub">I design and build websites people remember — and I study how to keep them secure. Every project below is real, working software.</p>
+      <div class="hero-cta">
+        <a href="#work" class="btn-pill">See My Work</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-n" data-count="4" data-suffix="+">4+</span><span class="stat-l">Projects</span></div>
+        <div class="stat"><span class="stat-n" data-count="6" data-suffix="">6</span><span class="stat-l">Certifications</span></div>
+        <div class="stat"><span class="stat-n" data-count="100" data-suffix="%">100%</span><span class="stat-l">Original Work</span></div>
+      </div>
     </div>
-    <div class="hero-stats hero-a" style="--hd:2.9s">
-      <div class="stat"><span class="stat-n" data-count="4" data-suffix="+">4+</span><span class="stat-l">Projects Built</span></div>
-      <div class="stat"><span class="stat-n" data-count="6" data-suffix="">6</span><span class="stat-l">Certifications</span></div>
-      <div class="stat"><span class="stat-n" data-count="100" data-suffix="%">100%</span><span class="stat-l">Original Code</span></div>
-    </div>
+    <figure class="hero-photo">
+      <img src="profile.jpg" alt="Portrait of Dinesh Singh" width="300" height="300">
+      <figcaption>Dinesh Singh — Gurugram, India</figcaption>
+    </figure>
   </div>
-  <a href="#about" class="scroll-cue hero-a" style="--hd:3.1s" aria-label="Scroll down"><span></span></a>
 </header>
 
-<!-- ===== TICKER ===== -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span>HTML5</span><i>✦</i><span>CSS3</span><i>✦</i><span>JavaScript</span><i>✦</i><span>Python</span><i>✦</i><span>Kali Linux</span><i>✦</i><span>GitHub</span><i>✦</i><span>Web Security</span><i>✦</i>
-    <span>HTML5</span><i>✦</i><span>CSS3</span><i>✦</i><span>JavaScript</span><i>✦</i><span>Python</span><i>✦</i><span>Kali Linux</span><i>✦</i><span>GitHub</span><i>✦</i><span>Web Security</span><i>✦</i>
+<!-- ===== MARQUEE ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>HTML5</span><i>◆</i><span>CSS3</span><i>◆</i><span>JavaScript</span><i>◆</i><span>Python</span><i>◆</i><span>Kali Linux</span><i>◆</i><span>GitHub</span><i>◆</i><span>Web Security</span><i>◆</i>
+    <span>HTML5</span><i>◆</i><span>CSS3</span><i>◆</i><span>JavaScript</span><i>◆</i><span>Python</span><i>◆</i><span>Kali Linux</span><i>◆</i><span>GitHub</span><i>◆</i><span>Web Security</span><i>◆</i>
   </div>
 </div>
 
 <!-- ===== ABOUT ===== -->
 <section class="section" id="about">
   <div class="container">
-    <p class="kicker reveal"><span class="sec-no">01</span> — About Me</p>
-    <h2 class="reveal">A student who <span class="gold-text">builds</span>, not just learns</h2>
+    <p class="kicker"><span class="sec-no">01</span>About</p>
+    <h2 class="sec-title">A student who <em>builds</em>, not just learns</h2>
     <div class="about-grid">
-      <div class="about-text reveal">
+      <div class="about-text">
         <p>I'm a <strong>BCA 2nd Year student</strong> at World College of Technology and Management (WCTM), Gurugram. My two obsessions: <strong>building for the web</strong> and <strong>understanding how to secure it</strong>.</p>
         <p>While studying, I ship real things — a 71-tool file platform, an original Linux security auditor, a search-engine project, and a workshop platform with verified certificates. Every line is mine or honestly credited.</p>
         <p>I also take on <strong>select freelance website projects</strong> — clean, fast, mobile-friendly sites for people who want a genuine online presence.</p>
       </div>
-      <div class="about-card reveal" style="--rd:.12s">
-        <div class="avatar">DS</div>
+      <aside class="about-card">
+        <p class="card-kicker">Profile</p>
         <h3>Dinesh Singh</h3>
         <p class="muted">BCA Student · Web Developer · Cybersecurity Learner</p>
-        <p class="muted">📍 Gurugram, Haryana, India</p>
+        <p class="muted">Gurugram, Haryana, India</p>
         <div class="socials">
-          <a href="https://github.com/dm2123" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
-          <a href="https://www.linkedin.com/in/dinesh-singh-3439a4282" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
-          <a href="https://www.instagram.com/dinesh_samrat1" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://github.com/dm2123" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+          <a href="https://www.linkedin.com/in/dinesh-singh-3439a4282" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+          <a href="https://www.instagram.com/dinesh_samrat1" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
           <a href="https://x.com/DineshMaur60423" target="_blank" rel="noopener" aria-label="X">X</a>
         </div>
-      </div>
+      </aside>
     </div>
   </div>
 </section>
 
 <!-- ===== SKILLS ===== -->
-<section class="section section-alt" id="skills">
+<section class="section section-band" id="skills">
   <div class="container">
-    <p class="kicker reveal"><span class="sec-no">02</span> — Skills</p>
-    <h2 class="reveal">What I work with</h2>
-    <p class="section-sub reveal">Honest levels — what I claim, I can actually explain and use.</p>
+    <p class="kicker"><span class="sec-no">02</span>Skills</p>
+    <h2 class="sec-title">What I work with</h2>
+    <p class="sec-sub">Honest levels — what I claim, I can actually explain and use.</p>
     <div class="skills-grid">
-      <div class="skill-card reveal"><span class="skill-ic">🌐</span><h3>HTML &amp; CSS</h3><p>Responsive layouts, modern styling, animations.</p><div class="bar"><div class="fill" data-w="85"></div></div><span class="lvl">Proficient</span></div>
-      <div class="skill-card reveal" style="--rd:.08s"><span class="skill-ic">⚡</span><h3>JavaScript</h3><p>Interactive pages, forms, dynamic content.</p><div class="bar"><div class="fill" data-w="60"></div></div><span class="lvl">Intermediate</span></div>
-      <div class="skill-card reveal" style="--rd:.16s"><span class="skill-ic">🐍</span><h3>Python</h3><p>Backends, automation, security tooling.</p><div class="bar"><div class="fill" data-w="55"></div></div><span class="lvl">Learning</span></div>
-      <div class="skill-card reveal" style="--rd:.24s"><span class="skill-ic">🐉</span><h3>Kali Linux</h3><p>Security labs, network scanning, defensive practice.</p><div class="bar"><div class="fill" data-w="65"></div></div><span class="lvl">Practising</span></div>
-      <div class="skill-card reveal" style="--rd:.32s"><span class="skill-ic">🔧</span><h3>GitHub</h3><p>Version control, Pages deploys, open-source workflow.</p><div class="bar"><div class="fill" data-w="75"></div></div><span class="lvl">Proficient</span></div>
+      <div class="skill-card"><h3>HTML &amp; CSS</h3><p>Responsive layouts, modern styling, animations.</p><div class="bar"><div class="fill" data-w="85"></div></div><span class="lvl">Proficient</span></div>
+      <div class="skill-card"><h3>JavaScript</h3><p>Interactive pages, forms, dynamic content.</p><div class="bar"><div class="fill" data-w="60"></div></div><span class="lvl">Intermediate</span></div>
+      <div class="skill-card"><h3>Python</h3><p>Backends, automation, security tooling.</p><div class="bar"><div class="fill" data-w="55"></div></div><span class="lvl">Learning</span></div>
+      <div class="skill-card"><h3>Kali Linux</h3><p>Security labs, network scanning, defensive practice.</p><div class="bar"><div class="fill" data-w="65"></div></div><span class="lvl">Practising</span></div>
+      <div class="skill-card"><h3>GitHub</h3><p>Version control, Pages deploys, open-source workflow.</p><div class="bar"><div class="fill" data-w="75"></div></div><span class="lvl">Proficient</span></div>
     </div>
   </div>
 </section>
 
-<!-- ===== PROJECTS ===== -->
-<section class="section" id="projects">
+<!-- ===== SELECTED WORK ===== -->
+<section class="section" id="work">
   <div class="container">
-    <p class="kicker reveal"><span class="sec-no">03</span> — Projects</p>
-    <h2 class="reveal">Things I've actually built</h2>
-    <p class="section-sub reveal">Real, working software — not mockups.</p>
-    <div class="projects-grid">
-      <div class="project-card reveal">
-        <span class="proj-tag">File Tools Platform</span>
-        <h3>ConvertX</h3>
-        <p>One platform, 71 file tools — PDF processing, format conversion, document editing and security workflows. Modern frontend with a working backend.</p>
-        <a href="https://github.com/dm2123/convertx" target="_blank" rel="noopener" class="link-gold">View on GitHub <span class="arr">→</span></a>
-      </div>
-      <div class="project-card reveal" style="--rd:.1s">
-        <span class="proj-tag">Security Tool</span>
-        <h3>CyberRakshak <span class="ver">v0.2.0</span></h3>
-        <p>My own Linux security auditor — port scanner, service detection, deep 14-check TLS auditor, PDF reports. 100% original code, defensive only.</p>
-        <a href="https://github.com/dm2123" target="_blank" rel="noopener" class="link-gold">View on GitHub <span class="arr">→</span></a>
-      </div>
-      <div class="project-card reveal" style="--rd:.2s">
-        <span class="proj-tag">Search Engine</span>
-        <h3>BharatKhoj</h3>
-        <p>AI-assisted India-focused search engine — web crawling, indexing and ranking. A long-term engineering challenge I'm building piece by piece.</p>
-        <a href="https://github.com/dm2123/bharatkhoj-netlify" target="_blank" rel="noopener" class="link-gold">View on GitHub <span class="arr">→</span></a>
-      </div>
-      <div class="project-card reveal" style="--rd:.3s">
-        <span class="proj-tag">Live Platform</span>
-        <h3>Certify Workshops</h3>
-        <p>Workshop platform with registrations, QR-verified certificates, and student + admin portals. Free workshops, production-deployed.</p>
-        <a href="https://dm2123.github.io/certify-workshops/" target="_blank" rel="noopener" class="link-gold">Visit live site <span class="arr">→</span></a>
-      </div>
+    <p class="kicker"><span class="sec-no">03</span>Selected Work</p>
+    <h2 class="sec-title">Work that <em>speaks</em></h2>
+    <p class="sec-sub">Real, working software — not mockups.</p>
+    <div class="work-grid">
+      <article class="work-card">
+        <div class="work-thumb thumb-convertx" aria-hidden="true"><span>Cx</span></div>
+        <div class="work-body">
+          <div class="work-tags"><span class="tag">File Tools Platform</span><span class="badge">71 tools</span></div>
+          <h3>ConvertX</h3>
+          <p>One platform, 71 file tools — PDF processing, format conversion, document editing and security workflows. Modern frontend with a working backend.</p>
+          <a href="https://github.com/dm2123/convertx" target="_blank" rel="noopener" class="work-link">View on GitHub <span>→</span></a>
+        </div>
+      </article>
+      <article class="work-card">
+        <div class="work-thumb thumb-cyber" aria-hidden="true"><span>CR</span></div>
+        <div class="work-body">
+          <div class="work-tags"><span class="tag">Security Tool</span><span class="badge">v0.2.0</span></div>
+          <h3>CyberRakshak</h3>
+          <p>My own Linux security auditor — port scanner, service detection, deep 14-check TLS auditor, PDF reports. 100% original code, defensive only.</p>
+          <a href="https://github.com/dm2123" target="_blank" rel="noopener" class="work-link">View on GitHub <span>→</span></a>
+        </div>
+      </article>
+      <article class="work-card">
+        <div class="work-thumb thumb-bharat" aria-hidden="true"><span>BK</span></div>
+        <div class="work-body">
+          <div class="work-tags"><span class="tag">Search Engine</span><span class="badge">AI-assisted</span></div>
+          <h3>BharatKhoj</h3>
+          <p>AI-assisted India-focused search engine — web crawling, indexing and ranking. A long-term engineering challenge I'm building piece by piece.</p>
+          <a href="https://github.com/dm2123/bharatkhoj-netlify" target="_blank" rel="noopener" class="work-link">View on GitHub <span>→</span></a>
+        </div>
+      </article>
+      <article class="work-card">
+        <div class="work-thumb thumb-certify" aria-hidden="true"><span>CW</span></div>
+        <div class="work-body">
+          <div class="work-tags"><span class="tag">Live Platform</span><span class="badge">Production</span></div>
+          <h3>Certify Workshops</h3>
+          <p>Workshop platform with registrations, QR-verified certificates, and student + admin portals. Free workshops, production-deployed.</p>
+          <a href="https://dm2123.github.io/certify-workshops/" target="_blank" rel="noopener" class="work-link">Visit live site <span>→</span></a>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- ===== CERTIFICATIONS ===== -->
-<section class="section section-alt" id="certs">
+<section class="section section-band" id="certs">
   <div class="container">
-    <p class="kicker reveal"><span class="sec-no">04</span> — Certifications</p>
-    <h2 class="reveal">Courses &amp; training completed</h2>
-    <p class="section-sub reveal">Earned through real coursework — listed exactly as they are.</p>
+    <p class="kicker"><span class="sec-no">04</span>Certifications</p>
+    <h2 class="sec-title">Courses &amp; training completed</h2>
+    <p class="sec-sub">Earned through real coursework — listed exactly as they are.</p>
     <div class="certs-grid">
-      <div class="cert-card reveal"><p class="cert-issuer">Deloitte · Forage</p><h3>Cybersecurity Virtual Experience</h3><span class="cert-type">Job simulation</span></div>
-      <div class="cert-card reveal" style="--rd:.08s"><p class="cert-issuer">WsCube Tech</p><h3>Next-Gen Ethical Hacker with AI</h3><span class="cert-type">Training program</span></div>
-      <div class="cert-card reveal" style="--rd:.16s"><p class="cert-issuer">LetsUpgrade × NSDC</p><h3>Vibe Coding + HTML/CSS</h3><span class="cert-type">Course</span></div>
-      <div class="cert-card reveal" style="--rd:.24s"><p class="cert-issuer">Cydenium</p><h3>Ethical Hacking Masterclass</h3><span class="cert-type">Training program</span></div>
-      <div class="cert-card reveal" style="--rd:.32s"><p class="cert-issuer">AWS</p><h3>Builder Center</h3><span class="cert-type">Cloud learning</span></div>
-      <div class="cert-card reveal" style="--rd:.4s"><p class="cert-issuer">MoYAS · Govt. of India</p><h3>VBYLD Quiz</h3><span class="cert-type">National quiz</span></div>
+      <div class="cert-card"><p class="cert-issuer">Deloitte · Forage</p><h3>Cybersecurity Virtual Experience</h3><span class="cert-type">Job simulation</span></div>
+      <div class="cert-card"><p class="cert-issuer">WsCube Tech</p><h3>Next-Gen Ethical Hacker with AI</h3><span class="cert-type">Training program</span></div>
+      <div class="cert-card"><p class="cert-issuer">LetsUpgrade × NSDC</p><h3>Vibe Coding + HTML/CSS</h3><span class="cert-type">Course</span></div>
+      <div class="cert-card"><p class="cert-issuer">Cydenium</p><h3>Ethical Hacking Masterclass</h3><span class="cert-type">Training program</span></div>
+      <div class="cert-card"><p class="cert-issuer">AWS</p><h3>Builder Center</h3><span class="cert-type">Cloud learning</span></div>
+      <div class="cert-card"><p class="cert-issuer">MoYAS · Govt. of India</p><h3>VBYLD Quiz</h3><span class="cert-type">National quiz</span></div>
     </div>
   </div>
 </section>
@@ -175,26 +188,24 @@
 <!-- ===== CONTACT ===== -->
 <section class="section" id="contact">
   <div class="container">
-    <p class="kicker reveal"><span class="sec-no">05</span> — Contact</p>
-    <h2 class="reveal">Have a project in <span class="gold-text">mind?</span></h2>
-    <p class="section-sub reveal">I take on select freelance website projects — and I love talking security, code and ideas. Message me; I usually reply within a few hours.</p>
+    <p class="kicker"><span class="sec-no">05</span>Contact</p>
+    <h2 class="sec-title">Have a project in <em>mind?</em></h2>
+    <p class="sec-sub">I take on select freelance website projects — and I love talking security, code and ideas. Message me; I usually reply within a few hours.</p>
     <div class="contact-grid">
-      <div class="reveal">
-        <div class="contact-direct">
-          <a href="mailto:dm7178072@gmail.com" class="contact-mail">📧 dm7178072@gmail.com</a>
-        </div>
+      <div>
+        <a href="mailto:dm7178072@gmail.com" class="contact-mail">dm7178072@gmail.com</a>
         <div class="socials socials-lg">
-          <a href="https://github.com/dm2123" target="_blank" rel="noopener" aria-label="GitHub"><span>GH</span><em>GitHub</em></a>
-          <a href="https://www.linkedin.com/in/dinesh-singh-3439a4282" target="_blank" rel="noopener" aria-label="LinkedIn"><span>IN</span><em>LinkedIn</em></a>
-          <a href="https://www.instagram.com/dinesh_samrat1" target="_blank" rel="noopener" aria-label="Instagram"><span>IG</span><em>Instagram</em></a>
-          <a href="https://x.com/DineshMaur60423" target="_blank" rel="noopener" aria-label="X"><span>X</span><em>X</em></a>
+          <a href="https://github.com/dm2123" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/dinesh-singh-3439a4282" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.instagram.com/dinesh_samrat1" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://x.com/DineshMaur60423" target="_blank" rel="noopener">X</a>
         </div>
       </div>
-      <form class="contact-form reveal" style="--rd:.12s" id="contactForm">
+      <form class="contact-form" id="contactForm">
         <label>Your name<input type="text" name="name" required maxlength="80" placeholder="Your name"></label>
         <label>Your email<input type="email" name="email" required maxlength="120" placeholder="you@example.com"></label>
         <label>Message<textarea name="message" required maxlength="2000" rows="4" placeholder="Tell me about your project or idea…"></textarea></label>
-        <button type="submit" class="btn btn-gold">Send Message</button>
+        <button type="submit" class="btn-pill">Send Message</button>
         <p class="form-note">Opens your email app with the message ready to send.</p>
       </form>
     </div>
@@ -208,6 +219,8 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
