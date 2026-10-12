@@ -112,7 +112,7 @@ a{color:inherit}
 
 /* ===== HERO ===== */
 .hero{padding:80px 0 70px;overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .hero-title{line-height:1.02;margin:6px 0 22px}
 .ht-red{
   display:block;font-family:var(--serif);font-style:italic;font-weight:400;
@@ -130,11 +130,11 @@ a{color:inherit}
 .stat-n{font-family:var(--serif);font-size:2rem;color:var(--crimson);display:block}
 .stat-l{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
-.hero-photo{margin:0;justify-self:end;max-width:300px}
+.hero-photo{margin:0;justify-self:end;max-width:430px;width:100%}
 .hero-photo img{
   width:100%;aspect-ratio:1/1;object-fit:cover;
-  border:6px solid #fff;outline:1px solid var(--line);
-  box-shadow:0 24px 60px rgba(20,20,20,.16);
+  border:8px solid #fff;outline:1px solid var(--line);
+  box-shadow:22px 22px 0 var(--crimson),0 24px 60px rgba(20,20,20,.16);
   filter:sepia(.14) contrast(1.02);
 }
 .hero-photo figcaption{
@@ -223,7 +223,7 @@ a{color:inherit}
 /* ===== RESPONSIVE ===== */
 @media(max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:40px}
-  .hero-photo{justify-self:start;max-width:220px}
+  .hero-photo{justify-self:start;max-width:280px}
   .about-grid,.contact-grid{grid-template-columns:1fr;gap:36px}
   .work-grid{grid-template-columns:1fr}
   .certs-grid{grid-template-columns:repeat(2,1fr)}
