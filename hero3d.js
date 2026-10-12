@@ -96,6 +96,33 @@
     }));
     world.add(stars);
 
+    // ---- ASSEMBLY intro: parts scattered se start karke ek-ek karke judte hain ----
+    var asm = { started: false, t0: 0 };
+    var voltFlash = 0;
+    var asmOffsets = [
+      [10, 7, -9], [-11, 6, -8], [-8, -8, -10],
+      [11, -7, -9], [6, 10, -11], [-6, -11, -10]
+    ];
+    meshes.forEach(function (m, i) {
+      var f = m.position.clone();
+      var o = asmOffsets[i % asmOffsets.length];
+      m.userData.finalPos = f;
+      m.userData.startPos = new THREE.Vector3(f.x + o[0], f.y + o[1], f.z + o[2]);
+      m.userData.delay = i * 380; // har part me gap: ek-ek karke judna
+      m.userData.dur = 950;
+      m.userData.landed = false;
+      m.userData.pulseT = -1;
+      m.position.copy(m.userData.startPos);
+    });
+    function startAssembly() {
+      if (asm.started) return;
+      asm.started = true;
+      asm.t0 = performance.now();
+    }
+    window.addEventListener('dinesh:assemble', startAssembly);
+    if (window.__heroAssembleNow) startAssembly(); // event module load se pehle fire ho gaya tha
+    setTimeout(startAssembly, 9000); // safety: parts kabhi scattered na rahen
+
     // ---- mouse: feel like you're inside the 3D space (lerped) ----
     var mx = 0, my = 0, tx = 0, ty = 0;
     if (finePointer) {
@@ -135,6 +162,29 @@
         p.setZ(j, z);
       }
       p.needsUpdate = true;
+      // assembly: har part apni jagah aakar lock hota hai (scale pulse + volt flash)
+      if (asm.started) {
+        var nowMs = performance.now();
+        for (var k = 0; k < meshes.length; k++) {
+          var mm = meshes[k], u = mm.userData;
+          var lt = (nowMs - asm.t0 - u.delay) / u.dur;
+          if (lt < 0) { mm.position.copy(u.startPos); continue; }
+          if (lt >= 1) {
+            if (!u.landed) { u.landed = true; u.pulseT = 0; voltFlash = 1; }
+            mm.position.copy(u.finalPos);
+          } else {
+            var ez = 1 - Math.pow(1 - lt, 3);
+            mm.position.lerpVectors(u.startPos, u.finalPos, ez);
+          }
+          if (u.pulseT >= 0 && u.pulseT <= 1) {
+            u.pulseT += 0.045;
+            mm.scale.setScalar(1 + 0.13 * Math.sin(Math.PI * Math.min(u.pulseT, 1)));
+            if (u.pulseT > 1) { mm.scale.setScalar(1); u.pulseT = -1; }
+          }
+        }
+        voltFlash *= 0.93;
+        voltLight.intensity = 60 + voltFlash * 110;
+      }
       // subtle dolly-back as you scroll through the hero
       var rect = hero.getBoundingClientRect();
       var prog = Math.min(Math.max(-rect.top / Math.max(1, rect.height), 0), 1);
