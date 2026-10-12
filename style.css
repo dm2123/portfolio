@@ -126,6 +126,13 @@ body{padding-bottom:34px}
   animation:introScan 2.8s ease-in-out .15s 1;
 }
 @keyframes introScan{to{top:112%}}
+/* ===== ASSEMBLY LOCK-IN (part fit hone ka subtle glow flash) ===== */
+.asm-lock{animation:asmLock .6s ease}
+@keyframes asmLock{
+  0%{filter:drop-shadow(0 0 0 rgba(0,224,127,0))}
+  35%{filter:drop-shadow(0 0 14px rgba(0,224,127,.55))}
+  100%{filter:drop-shadow(0 0 0 rgba(0,224,127,0))}
+}
 /* ===== BUTTONS ===== */
 .btn-pill{
   display:inline-block;background:var(--crimson);color:#fff;
