@@ -238,7 +238,14 @@ body{padding-bottom:34px}
   background:
     radial-gradient(620px 420px at 12% 18%, rgba(200,16,46,.10), transparent 70%),
     radial-gradient(520px 400px at 88% 78%, rgba(0,224,127,.10), transparent 70%),
-    radial-gradient(720px 520px at 60% 42%, rgba(20,20,20,.05), transparent 70%);
+    radial-gradient(720px 520px at 60% 42%, rgba(20,20,20,.05), transparent 70%),
+    linear-gradient(160deg, rgba(200,16,46,.045), transparent 42%, transparent 62%, rgba(0,224,127,.05));
+}
+/* film grain: premium texture over the hero (pure CSS, zero JS cost) */
+.hero-grain{
+  position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.7'/></svg>");
+  background-size:160px 160px;
 }
 html.no-webgl .hero-fallback{display:block}
 html.no-webgl .hero-particles{display:none}
