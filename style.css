@@ -225,8 +225,16 @@ body{padding-bottom:34px}
   color:var(--muted);text-align:center;
 }
 
-/* ===== HERO 3D + LIVE PARTICLES ===== */
+/* ===== HERO 3D (Three.js WebGL canvas) + STATIC FALLBACK ===== */
 .hero-particles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero-fallback{position:absolute;inset:0;z-index:0;pointer-events:none;display:none;
+  background:
+    radial-gradient(620px 420px at 12% 18%, rgba(200,16,46,.10), transparent 70%),
+    radial-gradient(520px 400px at 88% 78%, rgba(0,224,127,.10), transparent 70%),
+    radial-gradient(720px 520px at 60% 42%, rgba(20,20,20,.05), transparent 70%);
+}
+html.no-webgl .hero-fallback{display:block}
+html.no-webgl .hero-particles{display:none}
 .hero .container{position:relative;z-index:1}
 .hero-deco{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0}
 .deco-a{width:440px;height:440px;left:-130px;top:-90px;background:radial-gradient(circle,rgba(200,16,46,.13),transparent 70%)}
