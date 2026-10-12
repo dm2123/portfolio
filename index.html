@@ -10,6 +10,23 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23C8102E'/%3E%3Ctext x='30' y='43' font-family='Georgia,serif' font-style='italic' font-size='29' fill='%23FAF6EF' text-anchor='middle'%3EDS%3C/text%3E%3Crect x='45' y='45' width='9' height='9' fill='%2300E07F'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script>
+/* Early feature check: no importmap or no WebGL -> static gradient fallback (CSS handles it) */
+(function () {
+  var ok = false;
+  try { ok = !!(window.HTMLScriptElement && HTMLScriptElement.supports && HTMLScriptElement.supports('importmap')); } catch (e) {}
+  if (!ok || !('WebGLRenderingContext' in window)) {
+    document.documentElement.classList.add('no-webgl');
+  }
+})();
+</script>
 </head>
 <body>
 
@@ -50,6 +67,7 @@
 
 <!-- ===== HERO ===== -->
 <header class="hero" id="top">
+  <div class="hero-fallback" aria-hidden="true"></div>
   <canvas class="hero-particles" id="heroParticles" aria-hidden="true"></canvas>
   <div class="hero-deco deco-a" data-depth="46" aria-hidden="true"></div>
   <div class="hero-deco deco-b" data-depth="70" aria-hidden="true"></div>
@@ -237,6 +255,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="script.js"></script>
+<script type="module" src="hero3d.js"></script>
 
 <!-- ===== TMUX-STYLE STATUS BAR (JS-driven; hidden without JS) ===== -->
 <div class="statusbar" id="statusbar" aria-hidden="true" hidden>
