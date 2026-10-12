@@ -3,6 +3,7 @@
   'use strict';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasGsap = typeof window.gsap !== 'undefined';
+  var parallaxReady = false;
 
   /* ---------- TYPEWRITER ---------- */
   function typeText(el, text, speed, done) {
@@ -94,6 +95,7 @@
     document.body.style.overflow = '';
     startHeroTerm();
     setTimeout(function () { intro.style.display = 'none'; }, 700);
+    setTimeout(function () { parallaxReady = true; }, 1800); // let entrance animations settle first
   }
   if (intro) {
     document.body.style.overflow = 'hidden';
@@ -227,13 +229,116 @@
     gsap.from('.hero-sub, .hero-cta, .hero-stats', { y: 34, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.45 });
     gsap.from('.hero-photo', { x: 70, opacity: 0, duration: 1.1, ease: 'power3.out', delay: 0.55 });
     // Section reveals
-    var targets = document.querySelectorAll('.sec-title, .sec-sub, .about-text, .about-card, .skill-card, .work-card, .cert-card, .contact-grid > *');
+    var targets = document.querySelectorAll('.sec-title, .sec-sub, .about-text, .about-card, .skill-card, .cert-card, .contact-grid > *');
     targets.forEach(function (el) {
       gsap.from(el, {
         y: 44, opacity: 0, duration: 0.85, ease: 'power2.out',
         scrollTrigger: (typeof window.ScrollTrigger !== 'undefined') ? { trigger: el, start: 'top 88%' } : undefined
       });
     });
+    // Work cards: 3D perspective rotate-in reveal
+    document.querySelectorAll('.work-card').forEach(function (card) {
+      gsap.from(card, {
+        rotationX: -24, y: 64, opacity: 0, transformPerspective: 1100,
+        duration: 0.9, ease: 'power3.out',
+        scrollTrigger: (typeof window.ScrollTrigger !== 'undefined') ? { trigger: card, start: 'top 88%' } : undefined
+      });
+    });
+  }
+
+  /* ---------- HERO 3D DEPTH PARALLAX (fine pointers only) ---------- */
+  function heroParallax() {
+    if (reduced || !window.matchMedia('(pointer:fine)').matches) return;
+    var hero = document.querySelector('.hero');
+    var layers = document.querySelectorAll('.hero [data-depth]');
+    if (!hero || !layers.length) return;
+    hero.classList.add('parallax-on');
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+    function lerp() {
+      cx += (tx - cx) * 0.075;
+      cy += (ty - cy) * 0.075;
+      for (var i = 0; i < layers.length; i++) {
+        var d = parseFloat(layers[i].getAttribute('data-depth')) || 20;
+        layers[i].style.transform = 'translate3d(' + (cx * d).toFixed(2) + 'px,' + (cy * d).toFixed(2) + 'px,0)';
+      }
+      if (Math.abs(tx - cx) > 0.0008 || Math.abs(ty - cy) > 0.0008) {
+        raf = requestAnimationFrame(lerp);
+      } else {
+        raf = null;
+      }
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(lerp); }
+    hero.addEventListener('mousemove', function (e) {
+      if (!parallaxReady) return;
+      var r = hero.getBoundingClientRect();
+      tx = (e.clientX - r.left) / r.width - 0.5;
+      ty = (e.clientY - r.top) / r.height - 0.5;
+      kick();
+    });
+    hero.addEventListener('mouseleave', function () { tx = 0; ty = 0; kick(); });
+  }
+
+  /* ---------- HERO LIVE PARTICLE FIELD (lightweight canvas) ---------- */
+  function heroParticles() {
+    if (reduced) return;
+    var cv = document.getElementById('heroParticles');
+    var hero = document.querySelector('.hero');
+    if (!cv || !hero || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var W = 0, H = 0, parts = [], running = false;
+    var COLORS = ['200,16,46', '0,224,127', '20,20,20']; // crimson, volt, ink
+    function resize() {
+      var r = hero.getBoundingClientRect();
+      W = cv.width = Math.max(1, Math.floor(r.width));
+      H = cv.height = Math.max(1, Math.floor(r.height));
+      spawn();
+    }
+    function spawn() {
+      parts = [];
+      var n = Math.min(44, Math.floor(W * H / 26000));
+      for (var i = 0; i < n; i++) {
+        parts.push({
+          x: Math.random() * W, y: Math.random() * H,
+          s: 2 + Math.random() * 5,
+          vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28,
+          a: 0.05 + Math.random() * 0.10,
+          c: COLORS[i % 3], shape: i % 3,
+          rot: Math.random() * 6.283, vr: (Math.random() - 0.5) * 0.012
+        });
+      }
+    }
+    function draw(p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = 'rgba(' + p.c + ',' + p.a.toFixed(3) + ')';
+      if (p.shape === 0) { ctx.beginPath(); ctx.arc(0, 0, p.s, 0, 6.284); ctx.fill(); }
+      else if (p.shape === 1) { ctx.beginPath(); ctx.moveTo(0, -p.s); ctx.lineTo(p.s, p.s); ctx.lineTo(-p.s, p.s); ctx.closePath(); ctx.fill(); }
+      else { ctx.fillRect(-p.s, -1, p.s * 2, 2); ctx.fillRect(-1, -p.s, 2, p.s * 2); }
+      ctx.restore();
+    }
+    function frame() {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+        if (p.x < -12) p.x = W + 12; else if (p.x > W + 12) p.x = -12;
+        if (p.y < -12) p.y = H + 12; else if (p.y > H + 12) p.y = -12;
+        draw(p);
+      }
+      requestAnimationFrame(frame);
+    }
+    function start() { if (!running && !document.hidden) { running = true; requestAnimationFrame(frame); } }
+    function stop() { running = false; }
+    var t = null;
+    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(resize, 200); });
+    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { en[0].isIntersecting ? start() : stop(); }).observe(hero);
+    }
+    resize();
+    start();
   }
 
   /* ---------- WORK CARD TILT (desktop pointers only) ---------- */
@@ -267,6 +372,8 @@
   animateCounters();
   animateBars();
   cardTilt();
+  heroParallax();
+  heroParticles();
   initStatusBar();
   if (document.readyState === 'complete') {
     gsapReveals();
