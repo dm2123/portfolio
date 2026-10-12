@@ -85,6 +85,39 @@
     setInterval(tick, 15000);
   }
 
+  /* ---------- HERO ASSEMBLY (signature intro: parts ek-ek karke judte hain) ---------- */
+  // Sirf JS se scattered states lagte hain taaki no-JS me content hamesha visible rahe.
+  function assembleHeroDOM() {
+    if (reduced) return; // reduced-motion: content turant dikhe, koi animation nahi
+    function lockIn(el) {
+      if (!el) return;
+      el.classList.remove('asm-lock');
+      void el.offsetWidth; // reflow: animation dobara trigger ho
+      el.classList.add('asm-lock');
+      setTimeout(function () { el.classList.remove('asm-lock'); }, 650);
+    }
+    if (!hasGsap) return; // GSAP CDN fail: content visible rehta hai, animation skip
+    var parts = [
+      { sel: '.nav', from: { y: -90, opacity: 0 }, d: 0 },
+      { sel: '.ht-red', from: { x: -130, opacity: 0 }, d: 0.10 },
+      { sel: '.ht-black', from: { x: 130, opacity: 0 }, d: 0.22 },
+      { sel: '.hero-photo', from: { scale: 0.55, rotation: -8, opacity: 0 }, d: 0.30 },
+      { sel: '.hero-sub', from: { y: 60, opacity: 0 }, d: 0.40 },
+      { sel: '.term-line', from: { y: 40, opacity: 0 }, d: 0.52 },
+      { sel: '.hero-cta', from: { y: 56, opacity: 0 }, d: 0.62 },
+      { sel: '.hero-stats', from: { y: 44, opacity: 0 }, d: 0.72 }
+    ];
+    parts.forEach(function (p) {
+      var el = document.querySelector(p.sel);
+      if (!el) return;
+      gsap.fromTo(el, p.from, {
+        x: 0, y: 0, scale: 1, rotation: 0, opacity: 1,
+        duration: 0.85, ease: 'power3.out', delay: p.d,
+        onComplete: function () { lockIn(el); }
+      });
+    });
+  }
+
   /* ---------- INTRO SPLASH ---------- */
   var intro = document.getElementById('intro');
   var introDone = false;
@@ -94,6 +127,9 @@
     intro.classList.add('done');
     document.body.style.overflow = '';
     startHeroTerm();
+    assembleHeroDOM(); // DOM parts ek-ek karke judte hain
+    window.__heroAssembleNow = true;
+    window.dispatchEvent(new Event('dinesh:assemble')); // 3D shapes assemble hon
     setTimeout(function () { intro.style.display = 'none'; }, 700);
     setTimeout(function () { parallaxReady = true; }, 1800); // let entrance animations settle first
   }
@@ -223,11 +259,8 @@
     if (typeof window.ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
     }
-    // Hero entrance
-    gsap.from('.ht-red', { y: 60, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.15 });
-    gsap.from('.ht-black', { y: 50, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.3 });
-    gsap.from('.hero-sub, .hero-cta, .hero-stats', { y: 34, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.45 });
-    gsap.from('.hero-photo', { x: 70, opacity: 0, duration: 1.1, ease: 'power3.out', delay: 0.55 });
+    // NOTE: hero entrance yahan nahi — assembleHeroDOM() intro dismiss par chalata hai
+    // (assembly: parts ek-ek karke judte hain, signature intro moment)
     // Section reveals
     var targets = document.querySelectorAll('.sec-title, .sec-sub, .about-text, .about-card, .skill-card, .cert-card, .contact-grid > *');
     targets.forEach(function (el) {
