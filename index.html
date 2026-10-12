@@ -7,13 +7,14 @@
 <meta name="description" content="Dinesh Singh — BCA student at WCTM Gurugram. Web developer and cybersecurity learner. Selected work: ConvertX, CyberRakshak, BharatKhoj, Certify Workshops.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- ===== INTRO SPLASH ===== -->
 <div class="intro" id="intro">
+  <div class="intro-scan" aria-hidden="true"></div>
   <div class="intro-inner">
     <p class="intro-kicker">Portfolio — 2026</p>
     <h1 class="intro-name" aria-label="Dinesh Singh">
@@ -21,16 +22,18 @@
     </h1>
     <div class="intro-rule"></div>
     <p class="intro-sub">I build for the web. I learn to defend it.</p>
+    <p class="intro-term" aria-hidden="true"><span class="prompt">$</span> <span id="introTyped"></span><span class="caret"></span></p>
+    <p class="intro-result" id="introResult" aria-hidden="true"><span class="prompt">→</span> dinesh_singh · <span class="ok">verified</span></p>
     <a href="#work" class="btn-pill" id="introCta">See My Work</a>
     <button class="intro-skip" id="introSkip" type="button">Skip intro</button>
   </div>
 </div>
-<noscript><style>.intro{display:none}</style></noscript>
+<noscript><style>.intro{display:none}.intro-term,.intro-result,.term-line,.term-result{display:none}</style></noscript>
 
 <!-- ===== NAVBAR ===== -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="wordmark">Dinesh<em>Singh</em></a>
+    <a href="#top" class="wordmark">Dinesh<em>Singh</em><span class="caret caret-sm" aria-hidden="true"></span></a>
     <div class="nav-links" id="navLinks">
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
@@ -53,6 +56,8 @@
         <span class="ht-black">Cybersecurity Learner &amp; Web Developer.</span>
       </h1>
       <p class="hero-sub">I design and build websites people remember — and I study how to keep them secure. Every project below is real, working software.</p>
+      <p class="term-line" aria-hidden="true"><span class="prompt">$</span> <span id="heroTyped"></span><span class="caret"></span></p>
+      <p class="term-result" id="heroResult" aria-hidden="true"><span class="prompt">→</span> web development <span class="amp">&</span> defensive security</p>
       <div class="hero-cta">
         <a href="#work" class="btn-pill">See My Work</a>
         <a href="#contact" class="btn-outline">Get In Touch</a>
@@ -64,7 +69,10 @@
       </div>
     </div>
     <figure class="hero-photo">
-      <img src="profile.jpg" alt="Portrait of Dinesh Singh" width="300" height="300">
+      <div class="photo-frame">
+        <img src="profile.jpg" alt="Portrait of Dinesh Singh" width="300" height="300">
+        <div class="photo-scan" aria-hidden="true"></div>
+      </div>
       <figcaption>Dinesh Singh — Gurugram, India</figcaption>
     </figure>
   </div>
@@ -81,7 +89,7 @@
 <!-- ===== ABOUT ===== -->
 <section class="section" id="about">
   <div class="container">
-    <p class="kicker"><span class="sec-no">01</span>About</p>
+    <p class="kicker"><span class="sec-no">0x01</span>About</p>
     <h2 class="sec-title">A student who <em>builds</em>, not just learns</h2>
     <div class="about-grid">
       <div class="about-text">
@@ -108,7 +116,7 @@
 <!-- ===== SKILLS ===== -->
 <section class="section section-band" id="skills">
   <div class="container">
-    <p class="kicker"><span class="sec-no">02</span>Skills</p>
+    <p class="kicker"><span class="sec-no">0x02</span>Skills</p>
     <h2 class="sec-title">What I work with</h2>
     <p class="sec-sub">Honest levels — what I claim, I can actually explain and use.</p>
     <div class="skills-grid">
@@ -124,7 +132,7 @@
 <!-- ===== SELECTED WORK ===== -->
 <section class="section" id="work">
   <div class="container">
-    <p class="kicker"><span class="sec-no">03</span>Selected Work</p>
+    <p class="kicker"><span class="sec-no">0x03</span>Selected Work</p>
     <h2 class="sec-title">Work that <em>speaks</em></h2>
     <p class="sec-sub">Real, working software — not mockups.</p>
     <div class="work-grid">
@@ -171,7 +179,7 @@
 <!-- ===== CERTIFICATIONS ===== -->
 <section class="section section-band" id="certs">
   <div class="container">
-    <p class="kicker"><span class="sec-no">04</span>Certifications</p>
+    <p class="kicker"><span class="sec-no">0x04</span>Certifications</p>
     <h2 class="sec-title">Courses &amp; training completed</h2>
     <p class="sec-sub">Earned through real coursework — listed exactly as they are.</p>
     <div class="certs-grid">
@@ -188,7 +196,7 @@
 <!-- ===== CONTACT ===== -->
 <section class="section" id="contact">
   <div class="container">
-    <p class="kicker"><span class="sec-no">05</span>Contact</p>
+    <p class="kicker"><span class="sec-no">0x05</span>Contact</p>
     <h2 class="sec-title">Have a project in <em>mind?</em></h2>
     <p class="sec-sub">I take on select freelance website projects — and I love talking security, code and ideas. Message me; I usually reply within a few hours.</p>
     <div class="contact-grid">
