@@ -38,6 +38,52 @@
     }, 350);
   }
 
+  /* ---------- INTRO BOOT SEQUENCE ---------- */
+  var bootLines = ['projects loaded — 4', 'certifications verified — 6', 'defenses up'];
+  function runBoot(i) {
+    var boot = document.getElementById('introBoot');
+    if (!boot || i >= bootLines.length) return;
+    var line = document.createElement('span');
+    line.className = 'boot-line';
+    var ok = document.createElement('span');
+    ok.className = 'ok';
+    ok.textContent = '[OK]';
+    var txt = document.createElement('span');
+    line.appendChild(ok);
+    line.appendChild(txt);
+    boot.appendChild(line);
+    typeText(txt, bootLines[i], 14, function () { runBoot(i + 1); });
+  }
+  function showBootInstant() {
+    var boot = document.getElementById('introBoot');
+    if (!boot) return;
+    bootLines.forEach(function (t) {
+      var line = document.createElement('span');
+      line.className = 'boot-line';
+      var ok = document.createElement('span');
+      ok.className = 'ok';
+      ok.textContent = '[OK]';
+      line.appendChild(ok);
+      line.appendChild(document.createTextNode(t));
+      boot.appendChild(line);
+    });
+  }
+
+  /* ---------- STATUS BAR ---------- */
+  function initStatusBar() {
+    var sb = document.getElementById('statusbar');
+    if (!sb) return;
+    sb.hidden = false;
+    var clock = document.getElementById('sbClock');
+    function tick() {
+      if (!clock) return;
+      var d = new Date();
+      clock.textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+    }
+    tick();
+    setInterval(tick, 15000);
+  }
+
   /* ---------- INTRO SPLASH ---------- */
   var intro = document.getElementById('intro');
   var introDone = false;
@@ -57,12 +103,14 @@
       setTimeout(function () {
         typeText(introTyped, 'whoami', 80, function () {
           if (introResult) introResult.classList.add('show');
+          setTimeout(function () { runBoot(0); }, 280);
         });
       }, 1450);
-      setTimeout(dismissIntro, 3600); // auto after letter reveal + verify moment
+      setTimeout(dismissIntro, 4600); // auto after letter reveal + verify + boot lines
     } else {
       if (introTyped) introTyped.textContent = 'whoami';
       if (introResult) introResult.classList.add('show');
+      showBootInstant();
       dismissIntro();
     }
     var skip = document.getElementById('introSkip');
@@ -101,6 +149,8 @@
     Object.keys(navAnchors).forEach(function (k) {
       navAnchors[k].classList.toggle('active', k === id);
     });
+    var sbSec = document.getElementById('sbSection');
+    if (sbSec) sbSec.textContent = '/' + id;
   }
   if ('IntersectionObserver' in window && !reduced) {
     var navObs = new IntersectionObserver(function (entries) {
@@ -217,6 +267,7 @@
   animateCounters();
   animateBars();
   cardTilt();
+  initStatusBar();
   if (document.readyState === 'complete') {
     gsapReveals();
   } else {
