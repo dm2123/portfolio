@@ -4,6 +4,40 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasGsap = typeof window.gsap !== 'undefined';
 
+  /* ---------- TYPEWRITER ---------- */
+  function typeText(el, text, speed, done) {
+    if (!el) { if (done) done(); return; }
+    if (reduced) { el.textContent = text; if (done) done(); return; }
+    var i = 0;
+    el.textContent = '';
+    (function tick() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i++);
+        setTimeout(tick, speed);
+      } else if (done) {
+        done();
+      }
+    })();
+  }
+
+  var heroTermStarted = false;
+  function startHeroTerm() {
+    if (heroTermStarted) return;
+    heroTermStarted = true;
+    var el = document.getElementById('heroTyped');
+    var res = document.getElementById('heroResult');
+    if (reduced) {
+      if (el) el.textContent = 'cat focus.txt';
+      if (res) res.classList.add('show');
+      return;
+    }
+    setTimeout(function () {
+      typeText(el, 'cat focus.txt', 55, function () {
+        if (res) res.classList.add('show');
+      });
+    }, 350);
+  }
+
   /* ---------- INTRO SPLASH ---------- */
   var intro = document.getElementById('intro');
   var introDone = false;
@@ -12,13 +46,23 @@
     introDone = true;
     intro.classList.add('done');
     document.body.style.overflow = '';
+    startHeroTerm();
     setTimeout(function () { intro.style.display = 'none'; }, 700);
   }
   if (intro) {
     document.body.style.overflow = 'hidden';
+    var introTyped = document.getElementById('introTyped');
+    var introResult = document.getElementById('introResult');
     if (!reduced) {
-      setTimeout(dismissIntro, 3200); // auto after letter reveal
+      setTimeout(function () {
+        typeText(introTyped, 'whoami', 80, function () {
+          if (introResult) introResult.classList.add('show');
+        });
+      }, 1450);
+      setTimeout(dismissIntro, 3600); // auto after letter reveal + verify moment
     } else {
+      if (introTyped) introTyped.textContent = 'whoami';
+      if (introResult) introResult.classList.add('show');
       dismissIntro();
     }
     var skip = document.getElementById('introSkip');
@@ -106,13 +150,14 @@
     var fills = document.querySelectorAll('.fill[data-w]');
     fills.forEach(function (f) { f.style.width = '0'; });
     if (reduced || !('IntersectionObserver' in window)) {
-      fills.forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+      fills.forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; f.classList.add('lit'); });
       return;
     }
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) {
           en.target.style.width = en.target.getAttribute('data-w') + '%';
+          en.target.classList.add('lit');
           obs.unobserve(en.target);
         }
       });
@@ -141,6 +186,20 @@
     });
   }
 
+  /* ---------- WORK CARD TILT (desktop pointers only) ---------- */
+  function cardTilt() {
+    if (reduced || !window.matchMedia('(pointer:fine)').matches) return;
+    document.querySelectorAll('.work-card').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(900px) rotateY(' + (x * 7).toFixed(2) + 'deg) rotateX(' + (-y * 7).toFixed(2) + 'deg) translateY(-6px)';
+      });
+      card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    });
+  }
+
   /* ---------- CONTACT FORM (mailto) ---------- */
   var form = document.getElementById('contactForm');
   if (form) {
@@ -157,6 +216,7 @@
 
   animateCounters();
   animateBars();
+  cardTilt();
   if (document.readyState === 'complete') {
     gsapReveals();
   } else {
