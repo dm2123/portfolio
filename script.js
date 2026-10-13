@@ -279,7 +279,10 @@
     });
   }
 
-  /* ---------- HERO 3D DEPTH PARALLAX (fine pointers only) ---------- */
+  /* ---------- HERO TRUE-3D PARALLAX (fine pointers only) ----------
+     Per-layer translate + subtle 3D tilt toward the mouse:
+     headline, photo frame, text block and deco blobs sit on different
+     "depth planes" (data-depth) and tilt at different rates. */
   function heroParallax() {
     if (reduced || !window.matchMedia('(pointer:fine)').matches) return;
     var hero = document.querySelector('.hero');
@@ -292,7 +295,12 @@
       cy += (ty - cy) * 0.075;
       for (var i = 0; i < layers.length; i++) {
         var d = parseFloat(layers[i].getAttribute('data-depth')) || 20;
-        layers[i].style.transform = 'translate3d(' + (cx * d).toFixed(2) + 'px,' + (cy * d).toFixed(2) + 'px,0)';
+        var x = (cx * d).toFixed(2);
+        var y = (cy * d).toFixed(2);
+        var ry = (cx * d * 0.12).toFixed(2);  /* deg: deeper layer -> more tilt */
+        var rx = (-cy * d * 0.12).toFixed(2);
+        layers[i].style.transform =
+          'translate3d(' + x + 'px,' + y + 'px,0) perspective(1000px) rotateY(' + ry + 'deg) rotateX(' + rx + 'deg)';
       }
       if (Math.abs(tx - cx) > 0.0008 || Math.abs(ty - cy) > 0.0008) {
         raf = requestAnimationFrame(lerp);
