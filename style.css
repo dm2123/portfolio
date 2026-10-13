@@ -253,7 +253,7 @@ html.no-webgl .hero-particles{display:none}
 .hero-deco{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0}
 .deco-a{width:440px;height:440px;left:-130px;top:-90px;background:radial-gradient(circle,rgba(200,16,46,.13),transparent 70%)}
 .deco-b{width:380px;height:380px;right:-110px;bottom:-70px;background:radial-gradient(circle,rgba(0,224,127,.11),transparent 70%)}
-.parallax-on [data-depth]{will-change:transform}
+.parallax-on [data-depth]{will-change:transform;transform-style:preserve-3d}
 
 /* ===== MARQUEE ===== */
 .marquee{background:var(--ink);color:var(--cream);overflow:hidden;padding:14px 0;border-top:3px solid var(--crimson);border-bottom:3px solid var(--crimson)}
