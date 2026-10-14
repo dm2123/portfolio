@@ -300,6 +300,29 @@ html.no-webgl .hero-particles{display:none}
 }
 .work-card:hover .work-thumb::after{animation:thumbScan .7s ease}
 @keyframes thumbScan{to{top:115%}}
+/* live demo preview: diagonal shimmer sweep, loops while hovered (no fake screenshots) */
+.work-thumb::before{
+  content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:55%;pointer-events:none;
+  transform:translateX(-230%) skewX(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.30),transparent);
+  opacity:0;
+}
+.work-card:hover .work-thumb::before,.work-card:focus-within .work-thumb::before{opacity:1;animation:thumbShimmer 2.2s ease-in-out infinite}
+@keyframes thumbShimmer{0%{transform:translateX(-230%) skewX(-18deg)}55%{transform:translateX(430%) skewX(-18deg)}100%{transform:translateX(430%) skewX(-18deg)}}
+/* preview chip: terminal-style pulse dot + label, fades in on hover */
+.thumb-preview{
+  position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:7px;
+  font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;
+  background:rgba(10,10,10,.55);border:1px solid rgba(255,255,255,.38);border-radius:999px;
+  padding:5px 12px;opacity:0;transform:translateY(-6px);
+  transition:opacity .25s ease,transform .25s ease;backdrop-filter:blur(2px);
+}
+.work-card:hover .thumb-preview,.work-card:focus-within .thumb-preview{opacity:1;transform:none}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--volt);box-shadow:0 0 8px var(--volt);animation:dotPulse 1.4s ease-in-out infinite}
+@keyframes dotPulse{50%{opacity:.4}}
+/* monogram lifts slightly with the hover, giving depth to the preview */
+.thumb-mark{transition:transform .35s ease}
+.work-card:hover .thumb-mark{transform:translateY(-6px) scale(1.05)}
 .work-thumb span{font-family:var(--serif);font-style:italic;font-size:4.4rem;color:rgba(255,255,255,.92);text-shadow:0 4px 18px rgba(0,0,0,.25)}
 .thumb-convertx{background:linear-gradient(135deg,#1d2b64,#3a7bd5)}
 .thumb-cyber{background:linear-gradient(135deg,#200122,#6f0000)}
