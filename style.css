@@ -133,6 +133,20 @@ body{padding-bottom:34px}
   35%{filter:drop-shadow(0 0 14px rgba(0,224,127,.55))}
   100%{filter:drop-shadow(0 0 0 rgba(0,224,127,0))}
 }
+/* ===== READING PROGRESS BAR (scroll ke saath crimson bar bharta hai) ===== */
+.read-progress{
+  position:fixed;top:0;left:0;right:0;z-index:1100;height:4px;pointer-events:none;
+  background:linear-gradient(90deg,var(--crimson),var(--crimson-dark));
+  transform:scaleX(0);transform-origin:0 50%;
+}
+.read-progress[hidden]{display:none}
+/* volt glow tip: hamesha bar ke leading edge par (scale ke saath chalta hai) */
+.read-progress::after{
+  content:"";position:absolute;top:-2px;bottom:-2px;right:-4px;width:12px;
+  background:radial-gradient(circle,var(--volt) 0%,transparent 70%);
+  opacity:.9;
+}
+
 /* ===== BUTTONS ===== */
 .btn-pill{
   display:inline-block;background:var(--crimson);color:#fff;
