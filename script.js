@@ -333,6 +333,27 @@
     });
   }
 
+  /* ---------- READING PROGRESS BAR (scroll ke saath bharta hai) ----------
+     transform:scaleX se chalata hai taaki repaints na hon; passive listener + rAF.
+     No-JS me `hidden` rehta hai — decorative info element, content kabhi gayab nahi. */
+  function initReadProgress() {
+    var bar = document.getElementById('readProgress');
+    if (!bar) return;
+    bar.hidden = false;
+    var raf = null;
+    function update() {
+      raf = null;
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - doc.clientHeight;
+      var p = max > 0 ? Math.min(Math.max(doc.scrollTop / max, 0), 1) : 0;
+      bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(update); }
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', kick);
+    update();
+  }
+
   /* ---------- CONTACT FORM (mailto) ---------- */
   var form = document.getElementById('contactForm');
   if (form) {
@@ -352,6 +373,7 @@
   cardTilt();
   heroParallax();
   initStatusBar();
+  initReadProgress();
   if (document.readyState === 'complete') {
     gsapReveals();
   } else {
