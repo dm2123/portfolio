@@ -253,6 +253,27 @@
     fills.forEach(function (f) { obs.observe(f); });
   }
 
+  /* ---------- SKILL RADAR CHART ---------- */
+  function animateRadar() {
+    var svg = document.getElementById('skillRadar');
+    if (!svg) return;
+    // No animation: final state already in markup (works with no-JS too)
+    if (reduced || !('IntersectionObserver' in window)) {
+      svg.classList.add('radar-on');
+      return;
+    }
+    svg.classList.add('radar-prep');
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          svg.classList.add('radar-on');
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.35 });
+    obs.observe(svg);
+  }
+
   /* ---------- GSAP SCROLL REVEALS (progressive enhancement) ---------- */
   function gsapReveals() {
     if (!hasGsap || reduced) return;
@@ -262,7 +283,7 @@
     // NOTE: hero entrance yahan nahi — assembleHeroDOM() intro dismiss par chalata hai
     // (assembly: parts ek-ek karke judte hain, signature intro moment)
     // Section reveals
-    var targets = document.querySelectorAll('.sec-title, .sec-sub, .about-text, .about-card, .skill-card, .cert-card, .contact-grid > *');
+    var targets = document.querySelectorAll('.sec-title, .sec-sub, .about-text, .about-card, .radar-panel, .skill-card, .cert-card, .contact-grid > *');
     targets.forEach(function (el) {
       gsap.from(el, {
         y: 44, opacity: 0, duration: 0.85, ease: 'power2.out',
@@ -370,6 +391,7 @@
 
   animateCounters();
   animateBars();
+  animateRadar();
   cardTilt();
   heroParallax();
   initStatusBar();
