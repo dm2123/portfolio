@@ -303,6 +303,29 @@ html.no-webgl .hero-particles{display:none}
 .fill.lit::after{opacity:1}
 .lvl{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson)}
 
+/* ===== SKILLS RADAR CHART ===== */
+.skills-layout{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:44px;align-items:start}
+.radar-panel{background:var(--cream);border:1px solid var(--line);padding:24px 20px 18px;position:relative;transition:transform .25s,box-shadow .25s}
+.radar-panel:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(200,16,46,.10)}
+.radar-panel::before,.radar-panel::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--crimson)}
+.radar-panel::before{top:8px;left:8px;border-right:none;border-bottom:none}
+.radar-panel::after{bottom:8px;right:8px;border-left:none;border-top:none}
+.radar-svg{width:100%;height:auto;display:block}
+.radar-grid{fill:none;stroke:var(--line);stroke-width:1}
+.radar-spoke{stroke:var(--line);stroke-width:1}
+.radar-label{font-family:var(--mono);font-size:11px;letter-spacing:.05em;fill:var(--ink-soft)}
+.radar-val{font-family:var(--mono);font-size:10px;font-weight:700;fill:var(--crimson)}
+.radar-poly{fill:rgba(200,16,46,.10);stroke:var(--crimson);stroke-width:2.5;stroke-linejoin:round}
+.radar-dot{fill:var(--crimson);stroke:var(--cream);stroke-width:2;transform-box:fill-box;transform-origin:center}
+/* Animation states: no-JS shows the final state by default; JS adds .radar-prep first, then .radar-on on scroll */
+.radar-svg.radar-prep .radar-poly{stroke-dasharray:700;stroke-dashoffset:700;fill-opacity:0}
+.radar-svg.radar-prep .radar-dot{opacity:0;transform:scale(0)}
+.radar-svg.radar-prep .radar-val{opacity:0}
+.radar-svg.radar-on .radar-poly{stroke-dashoffset:0;fill-opacity:1;transition:stroke-dashoffset 1.4s ease .15s,fill-opacity .9s ease 1s}
+.radar-svg.radar-on .radar-dot{opacity:1;transform:scale(1);transition:opacity .45s ease var(--d),transform .45s cubic-bezier(.2,.9,.3,1.4) var(--d)}
+.radar-svg.radar-on .radar-val{opacity:1;transition:opacity .6s ease 1.3s}
+.radar-caption{margin-top:10px;font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;color:var(--muted);text-align:center}
+
 /* ===== WORK ===== */
 .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
 .work-card{background:#fff;border:1px solid var(--line);overflow:hidden;transition:transform .15s ease-out,box-shadow .3s;display:flex;flex-direction:column;will-change:transform}
@@ -387,6 +410,8 @@ html.no-webgl .hero-particles{display:none}
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .hero-photo-wrap{justify-self:start;max-width:280px}
   .about-grid,.contact-grid{grid-template-columns:1fr;gap:36px}
+  .skills-layout{grid-template-columns:1fr}
+  .radar-panel{max-width:400px;justify-self:center;width:100%}
   .work-grid{grid-template-columns:1fr}
   .certs-grid{grid-template-columns:repeat(2,1fr)}
   .nav-links{
