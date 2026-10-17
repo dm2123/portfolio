@@ -375,6 +375,50 @@
     update();
   }
 
+  /* ---------- CUSTOM CURSOR (crimson dot + trailing ring) ----------
+     Sirf fine-pointer desktop par: dot tez lerp se chipakta hai, ring
+     dheere trail karta hai. Reduced-motion / touch / no-JS me kabhi on nahi. */
+  function initCustomCursor() {
+    if (reduced || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+    var dot = document.getElementById('cursorDot');
+    var ring = document.getElementById('cursorRing');
+    if (!dot || !ring) return;
+    document.documentElement.classList.add('cursor-on');
+    var tx = -100, ty = -100;      // target (mouse)
+    var dx = -100, dy = -100;      // dot pos
+    var rx = -100, ry = -100;      // ring pos
+    var raf = null, inside = false;
+    function place() {
+      dx += (tx - dx) * 0.42;
+      dy += (ty - dy) * 0.42;
+      rx += (tx - rx) * 0.16;      // ring dheere — trailing feel
+      ry += (ty - ry) * 0.16;
+      dot.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0) translate(-50%,-50%)';
+      ring.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0) translate(-50%,-50%)';
+      var moving = Math.abs(tx - dx) > 0.05 || Math.abs(ty - dy) > 0.05 ||
+                   Math.abs(tx - rx) > 0.05 || Math.abs(ty - ry) > 0.05;
+      raf = moving ? requestAnimationFrame(place) : null;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(place); }
+    document.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!inside) { inside = true; dot.style.opacity = ''; ring.style.opacity = ''; }
+      kick();
+    }, { passive: true });
+    document.addEventListener('mouseleave', function () {
+      inside = false;
+      dot.style.opacity = '0'; ring.style.opacity = '0';
+    });
+    // hoverable elements par ring grow (delegation — dynamically added bhi cover)
+    var hoverSel = 'a,button,input,textarea,label,select,.skill-card,.cert-card,.work-card,.radar-panel';
+    document.addEventListener('mouseover', function (e) {
+      if (e.target.closest && e.target.closest(hoverSel)) ring.classList.add('cursor-hover');
+    }, { passive: true });
+    document.addEventListener('mouseout', function (e) {
+      if (e.target.closest && e.target.closest(hoverSel)) ring.classList.remove('cursor-hover');
+    }, { passive: true });
+  }
+
   /* ---------- CONTACT FORM (mailto) ---------- */
   var form = document.getElementById('contactForm');
   if (form) {
@@ -394,6 +438,7 @@
   animateRadar();
   cardTilt();
   heroParallax();
+  initCustomCursor();
   initStatusBar();
   initReadProgress();
   if (document.readyState === 'complete') {
