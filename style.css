@@ -147,6 +147,29 @@ body{padding-bottom:34px}
   opacity:.9;
 }
 
+/* ===== CUSTOM CURSOR (crimson dot + trailing ring; desktop fine pointers only) ===== */
+/* No-JS: kabhi display nahi hota — JS sirf fine-pointer par html.cursor-on lagata hai */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;z-index:1300;pointer-events:none;
+  border-radius:50%;display:none;opacity:0;
+}
+html.cursor-on .cursor-dot,html.cursor-on .cursor-ring{display:block;opacity:1}
+.cursor-dot{width:8px;height:8px;background:var(--crimson);box-shadow:0 0 10px rgba(200,16,46,.65)}
+.cursor-ring{
+  width:38px;height:38px;border:2px solid var(--crimson);opacity:0;
+  transition:opacity .3s ease,width .28s ease,height .28s ease,border-color .28s ease;
+}
+html.cursor-on .cursor-ring{opacity:.55}
+/* hoverable element par ring badi + volt-green — grow feedback */
+.cursor-ring.cursor-hover{width:58px;height:58px;border-color:var(--volt-deep);opacity:.85}
+/* native cursor sirf tabhi hide jab custom cursor active ho */
+html.cursor-on,html.cursor-on *{cursor:none}
+/* touch/coarse pointers: belt-and-braces — kabhi custom cursor nahi */
+@media(pointer:coarse){
+  html.cursor-on .cursor-dot,html.cursor-on .cursor-ring{display:none}
+  html.cursor-on,html.cursor-on *{cursor:auto}
+}
+
 /* ===== BUTTONS ===== */
 .btn-pill{
   display:inline-block;background:var(--crimson);color:#fff;
