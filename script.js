@@ -274,16 +274,66 @@
     obs.observe(svg);
   }
 
+  /* ---------- SPLIT-TEXT HEADING REVEAL (words, masked rise + stagger) ----------
+     Sirf progressive enhancement: JS se word-spans lagte hain, no-JS / reduced-motion /
+     GSAP-CDN-fail me markup hamesha original rehta hai — heading kabhi gayab nahi. */
+  function splitTitleWords(el) {
+    function splitNode(node) {
+      var frag = document.createDocumentFragment();
+      node.textContent.split(/(\s+)/).forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) {
+          frag.appendChild(document.createTextNode(' '));
+        } else {
+          var w = document.createElement('span');
+          w.className = 'st-w';
+          var inner = document.createElement('span');
+          inner.className = 'st-i';
+          inner.textContent = part;
+          w.appendChild(inner);
+          frag.appendChild(w);
+        }
+      });
+      return frag;
+    }
+    function walk(parent) {
+      Array.prototype.slice.call(parent.childNodes).forEach(function (kid) {
+        if (kid.nodeType === 3) {
+          parent.replaceChild(splitNode(kid), kid);
+        } else if (kid.nodeType === 1) {
+          walk(kid); // <em> jaise inline elements: styling barkarar
+        }
+      });
+    }
+    walk(el);
+    return el.querySelectorAll('.st-i');
+  }
+  function splitTextReveals() {
+    if (typeof window.ScrollTrigger === 'undefined') return;
+    document.querySelectorAll('.sec-title').forEach(function (el) {
+      var words = splitTitleWords(el);
+      if (!words.length) return;
+      gsap.fromTo(words,
+        { yPercent: 118 },
+        {
+          yPercent: 0, duration: 0.72, ease: 'power3.out', stagger: 0.065,
+          scrollTrigger: { trigger: el, start: 'top 86%' }
+        });
+    });
+  }
+
   /* ---------- GSAP SCROLL REVEALS (progressive enhancement) ---------- */
   function gsapReveals() {
     if (!hasGsap || reduced) return;
     if (typeof window.ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
     }
+    // Section headings: split-text reveal (words mask karke ek-ek karke uthte hain)
+    splitTextReveals();
     // NOTE: hero entrance yahan nahi — assembleHeroDOM() intro dismiss par chalata hai
     // (assembly: parts ek-ek karke judte hain, signature intro moment)
     // Section reveals
-    var targets = document.querySelectorAll('.sec-title, .sec-sub, .about-text, .about-card, .radar-panel, .skill-card, .cert-card, .contact-grid > *');
+    var targets = document.querySelectorAll('.sec-sub, .about-text, .about-card, .radar-panel, .skill-card, .cert-card, .contact-grid > *');
     targets.forEach(function (el) {
       gsap.from(el, {
         y: 44, opacity: 0, duration: 0.85, ease: 'power2.out',
