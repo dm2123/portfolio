@@ -218,6 +218,13 @@ html.cursor-on,html.cursor-on *{cursor:none}
   font-size:clamp(2rem,5.4vw,3.2rem);line-height:1.12;margin-bottom:14px;color:var(--ink);
 }
 .sec-title em{font-style:italic;color:var(--crimson)}
+/* Split-text reveal: har word mask me rehta hai, inner word neeche se uthta hai.
+   Sirf JS split hone par spans bante hain; bina JS ke ye rules match nahi karte. */
+.st-w{
+  display:inline-block;overflow:hidden;vertical-align:bottom;
+  padding-bottom:.12em;margin-bottom:-.12em; /* descenders (g, y) katne se bacho */
+}
+.st-i{display:inline-block;will-change:transform}
 .sec-sub{color:var(--muted);font-size:1.05rem;margin-bottom:40px;max-width:620px}
 .section{padding:96px 0}
 .section-band{background:var(--cream-deep);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
