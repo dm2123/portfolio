@@ -430,6 +430,13 @@ html.no-webgl .hero-particles{display:none}
 .contact-form .btn-pill{margin-top:4px}
 .form-note{font-size:.82rem;color:var(--muted);margin-top:12px}
 
+/* ===== VCARD DOWNLOAD ===== */
+.vcard-wrap{margin-top:32px}
+.vcard-btn{display:inline-flex;align-items:center;gap:12px}
+.vcard-chip{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.08em;background:var(--ink);color:var(--volt);padding:5px 9px;border-radius:7px}
+.vcard-btn:hover .vcard-chip{background:var(--volt);color:var(--ink)}
+.vcard-note{font-size:.82rem;color:var(--muted);margin-top:10px}
+
 /* ===== FOOTER ===== */
 .footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;background:var(--cream-deep)}
 .footer p{font-size:.9rem}
