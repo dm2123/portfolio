@@ -469,6 +469,37 @@
     }, { passive: true });
   }
 
+  /* ---------- VCARD DOWNLOAD (real data, Blob — no-JS me hidden rehta hai) ---------- */
+  function initVcard() {
+    var wrap = document.getElementById('vcardWrap');
+    var btn = document.getElementById('vcardBtn');
+    if (!wrap || !btn) return;
+    var vcard = [
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      'FN:Dinesh Singh',
+      'N:Singh;Dinesh;;;',
+      'TITLE:BCA Student · Cybersecurity Learner',
+      'EMAIL;TYPE=INTERNET,HOME:dm7178072@gmail.com',
+      'URL:https://dm2123.github.io/portfolio/',
+      'ADR;TYPE=HOME:;;Gurugram;Haryana;;India',
+      'NOTE:GitHub https://github.com/dm2123 | LinkedIn https://www.linkedin.com/in/dinesh-singh-3439a4282 | Instagram https://www.instagram.com/dinesh_samrat1 | X https://x.com/DineshMaur60423',
+      'END:VCARD'
+    ].join('\r\n') + '\r\n';
+    btn.addEventListener('click', function () {
+      var blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'dinesh-singh.vcf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 800);
+    });
+    wrap.hidden = false;
+  }
+
   /* ---------- CONTACT FORM (mailto) ---------- */
   var form = document.getElementById('contactForm');
   if (form) {
@@ -491,6 +522,7 @@
   initCustomCursor();
   initStatusBar();
   initReadProgress();
+  initVcard();
   if (document.readyState === 'complete') {
     gsapReveals();
   } else {
