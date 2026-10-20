@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dinesh Singh — Web Developer &amp; Cybersecurity Learner</title>
 <meta name="description" content="Dinesh Singh — BCA student at WCTM Gurugram. Web developer and cybersecurity learner. Selected work: ConvertX, CyberRakshak, BharatKhoj, Certify Workshops.">
+<meta name="color-scheme" content="light dark">
+<script>
+/* Theme init: saved preference -> system default. Pehle paint se pehle chalta hai (FOUC nahi). */
+(function () {
+  var theme = null;
+  try { theme = localStorage.getItem('dinesh:theme'); } catch (e) {}
+  if (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dark';
+  if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -68,6 +78,10 @@
       <a href="#contact">Contact</a>
     </div>
     <a href="#contact" class="btn-pill btn-sm nav-cta">Hire Me</a>
+    <button type="button" id="themeToggle" class="theme-toggle" hidden aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.4 13.2A8.5 8.5 0 0 1 10.8 3.6a.7.7 0 0 0-.9-.9 10 10 0 1 0 11.4 11.4.7.7 0 0 0-.9-.9Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6"/></svg>
+    </button>
     <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">☰</button>
   </div>
 </nav>
