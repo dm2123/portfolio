@@ -126,6 +126,27 @@
     }));
     world.add(stars);
 
+    // ---- dark theme sync: dark bg par ink-wire gayab ho jata hai, cream-satin chamakta hai —
+    //      isliye theme ke saath materials re-tint karo (script.js se dinesh:themechange aata hai) ----
+    function applySceneTheme(dark) {
+      MAT.inkWire.color.set(dark ? 0xEAE3D3 : 0x1a1a1a);
+      MAT.creamSatin.color.set(dark ? 0x453C2E : 0xEADFC6);
+      fill.color.set(dark ? 0x3A3226 : 0xfff9ef);
+      fill.groundColor.set(dark ? 0x100D09 : 0xd8c9a8);
+      var ca = starGeo.attributes.color, c;
+      for (var i = 0; i < COUNT; i++) {
+        c = dark
+          ? [[0.91, 0.14, 0.29], [0.0, 0.88, 0.50], [0.92, 0.88, 0.78]][i % 3] // crimson, volt, warm-white
+          : [[0.78, 0.06, 0.18], [0.0, 0.75, 0.42], [0.10, 0.10, 0.10]][i % 3]; // crimson, volt, ink
+        ca.setXYZ(i, c[0], c[1], c[2]);
+      }
+      ca.needsUpdate = true;
+    }
+    window.addEventListener('dinesh:themechange', function (e) {
+      applySceneTheme(!!(e.detail && e.detail.dark));
+    });
+    applySceneTheme(document.documentElement.getAttribute('data-theme') === 'dark');
+
     // ---- ASSEMBLY intro: parts door se aakar ek-ek karke judte hain (dramatic) ----
     var asm = { started: false, t0: 0 };
     var voltFlash = 0;
