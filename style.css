@@ -2,6 +2,7 @@
 :root{
   --cream:#FAF6EF;
   --cream-deep:#F3ECDD;
+  --card:#ffffff;
   --crimson:#C8102E;
   --crimson-dark:#9E0B23;
   --ink:#141414;
@@ -14,6 +15,43 @@
   --sans:'Inter',system-ui,-apple-system,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
 }
+/* ===== DARK THEME (premium night variant; html[data-theme="dark"] par on) ===== */
+html[data-theme="dark"]{
+  --cream:#14110D;
+  --cream-deep:#1C1813;
+  --card:#211C15;
+  --crimson:#E8234A;
+  --crimson-dark:#FF5A76;
+  --ink:#F3EEE2;
+  --ink-soft:#D8D1BF;
+  --muted:#A79C86;
+  --line:#332C22;
+  --volt-deep:#35E894;
+}
+html[data-theme="dark"] .nav{background:rgba(20,17,13,.92)}
+html[data-theme="dark"] .marquee{background:#0A0806;color:#F3EEE2}
+html[data-theme="dark"] .statusbar{background:#0A0806}
+html[data-theme="dark"] .sb-host{color:#F3EEE2}
+html[data-theme="dark"] .sec-no{background:#0A0806;color:var(--volt)}
+html[data-theme="dark"] .vcard-chip{background:#0A0806;color:var(--volt)}
+html[data-theme="dark"] .radar-poly{fill:rgba(232,35,74,.16)}
+/* theme crossfade: JS toggle par ~450ms ke liye .theme-x lagata hai (reduced-motion me skip) */
+html.theme-x body,html.theme-x .nav,html.theme-x .footer,html.theme-x .section-band,html.theme-x .marquee{
+  transition:background-color .35s ease,color .35s ease,border-color .35s ease;
+}
+/* ===== THEME TOGGLE (JS-driven; no-JS me hidden rehta hai) ===== */
+.theme-toggle{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:42px;height:42px;flex:none;border-radius:50%;
+  background:var(--card);border:1px solid var(--line);color:var(--ink);
+  cursor:pointer;transition:border-color .25s,color .25s,transform .25s;
+}
+.theme-toggle[hidden]{display:none}
+.theme-toggle:hover{border-color:var(--crimson);color:var(--crimson);transform:translateY(-2px)}
+.theme-toggle svg{width:19px;height:19px;display:block}
+.theme-toggle .icon-sun{display:none}
+html[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+html[data-theme="dark"] .theme-toggle .icon-moon{display:none}
 ::selection{background:var(--crimson);color:#fff}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -253,7 +291,7 @@ html.cursor-on,html.cursor-on *{cursor:none}
 .hero-photo{margin:0}
 .photo-frame{
   position:relative;overflow:hidden;
-  border:8px solid #fff;outline:1px solid var(--line);
+  border:8px solid var(--card);outline:1px solid var(--line);
   box-shadow:22px 22px 0 var(--crimson),0 24px 60px rgba(20,20,20,.16);
 }
 .photo-frame img{
@@ -309,7 +347,7 @@ html.no-webgl .hero-particles{display:none}
 .about-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:48px;align-items:start}
 .about-text p{margin-bottom:18px;font-size:1.06rem;color:var(--ink-soft)}
 .about-text strong{color:var(--ink)}
-.about-card{background:#fff;border:1px solid var(--line);padding:32px;box-shadow:8px 8px 0 var(--crimson)}
+.about-card{background:var(--card);border:1px solid var(--line);padding:32px;box-shadow:8px 8px 0 var(--crimson)}
 .card-kicker{font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;color:var(--crimson);font-weight:700;margin-bottom:10px}
 .about-card h3{font-family:var(--serif);font-size:1.7rem;margin-bottom:8px}
 .muted{color:var(--muted)}
@@ -358,7 +396,7 @@ html.no-webgl .hero-particles{display:none}
 
 /* ===== WORK ===== */
 .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
-.work-card{background:#fff;border:1px solid var(--line);overflow:hidden;transition:transform .15s ease-out,box-shadow .3s;display:flex;flex-direction:column;will-change:transform}
+.work-card{background:var(--card);border:1px solid var(--line);overflow:hidden;transition:transform .15s ease-out,box-shadow .3s;display:flex;flex-direction:column;will-change:transform}
 .work-card:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(20,20,20,.14),0 0 0 1px rgba(0,224,127,.55),0 0 28px rgba(0,224,127,.16)}
 .work-thumb{height:170px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .work-thumb::after{
@@ -423,7 +461,7 @@ html.no-webgl .hero-particles{display:none}
 .contact-form label{display:block;font-size:.85rem;font-weight:600;letter-spacing:.06em;margin-bottom:18px;color:var(--ink-soft)}
 .contact-form input,.contact-form textarea{
   width:100%;margin-top:8px;padding:13px 15px;font:inherit;font-size:.95rem;
-  background:#fff;border:1px solid var(--line);border-radius:2px;color:var(--ink);
+  background:var(--card);border:1px solid var(--line);border-radius:2px;color:var(--ink);
 }
 .contact-form input:focus,.contact-form textarea:focus{outline:2px solid var(--crimson);border-color:var(--crimson)}
 .contact-form textarea{resize:vertical}
