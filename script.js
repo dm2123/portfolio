@@ -70,6 +70,36 @@
     });
   }
 
+  /* ---------- DARK-MODE THEME TOGGLE ----------
+     Head ka early inline script saved/system theme ko pehle paint se pehle lagata hai.
+     Yahan: button unhide + toggle + localStorage persist + 3D scene sync event. */
+  function initTheme() {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+    function apply(dark, animate) {
+      if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      if (animate && !reduced) {
+        var h = document.documentElement;
+        h.classList.remove('theme-x');
+        void h.offsetWidth; // reflow: crossfade transition dobara trigger ho
+        h.classList.add('theme-x');
+        setTimeout(function () { h.classList.remove('theme-x'); }, 500);
+      }
+      window.dispatchEvent(new CustomEvent('dinesh:themechange', { detail: { dark: dark } }));
+    }
+    btn.addEventListener('click', function () {
+      var dark = !isDark();
+      apply(dark, true);
+      try { localStorage.setItem('dinesh:theme', dark ? 'dark' : 'light'); } catch (e) {}
+    });
+    apply(isDark(), false); // 3D scene ko current theme se sync karo
+    btn.hidden = false;
+  }
+
   /* ---------- STATUS BAR ---------- */
   function initStatusBar() {
     var sb = document.getElementById('statusbar');
@@ -460,7 +490,7 @@
       dot.style.opacity = '0'; ring.style.opacity = '0';
     });
     // hoverable elements par ring grow (delegation — dynamically added bhi cover)
-    var hoverSel = 'a,button,input,textarea,label,select,.skill-card,.cert-card,.work-card,.radar-panel';
+    var hoverSel = 'a,button,input,textarea,label,select,.skill-card,.cert-card,.work-card,.radar-panel,.theme-toggle';
     document.addEventListener('mouseover', function (e) {
       if (e.target.closest && e.target.closest(hoverSel)) ring.classList.add('cursor-hover');
     }, { passive: true });
@@ -517,6 +547,7 @@
   animateCounters();
   animateBars();
   animateRadar();
+  initTheme();
   cardTilt();
   heroParallax();
   initCustomCursor();
