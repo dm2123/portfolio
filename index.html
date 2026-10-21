@@ -272,13 +272,18 @@
     <p class="kicker"><span class="sec-no">0x04</span>Certifications</p>
     <h2 class="sec-title">Courses &amp; training completed</h2>
     <p class="sec-sub">Earned through real coursework — listed exactly as they are.</p>
+    <div class="cert-filters" id="certFilters" role="group" aria-label="Filter certifications" hidden>
+      <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="chip" data-filter="course" aria-pressed="false">Courses</button>
+      <button type="button" class="chip" data-filter="platform" aria-pressed="false">Platforms</button>
+    </div>
     <div class="certs-grid">
-      <div class="cert-card"><p class="cert-issuer">Deloitte · Forage</p><h3>Cybersecurity Virtual Experience</h3><span class="cert-type">Job simulation</span></div>
-      <div class="cert-card"><p class="cert-issuer">WsCube Tech</p><h3>Next-Gen Ethical Hacker with AI</h3><span class="cert-type">Training program</span></div>
-      <div class="cert-card"><p class="cert-issuer">LetsUpgrade × NSDC</p><h3>Vibe Coding + HTML/CSS</h3><span class="cert-type">Course</span></div>
-      <div class="cert-card"><p class="cert-issuer">Cydenium</p><h3>Ethical Hacking Masterclass</h3><span class="cert-type">Training program</span></div>
-      <div class="cert-card"><p class="cert-issuer">AWS</p><h3>Builder Center</h3><span class="cert-type">Cloud learning</span></div>
-      <div class="cert-card"><p class="cert-issuer">MoYAS · Govt. of India</p><h3>VBYLD Quiz</h3><span class="cert-type">National quiz</span></div>
+      <div class="cert-card" data-cat="platform"><p class="cert-issuer">Deloitte · Forage</p><h3>Cybersecurity Virtual Experience</h3><span class="cert-type">Job simulation</span></div>
+      <div class="cert-card" data-cat="course"><p class="cert-issuer">WsCube Tech</p><h3>Next-Gen Ethical Hacker with AI</h3><span class="cert-type">Training program</span></div>
+      <div class="cert-card" data-cat="course"><p class="cert-issuer">LetsUpgrade × NSDC</p><h3>Vibe Coding + HTML/CSS</h3><span class="cert-type">Course</span></div>
+      <div class="cert-card" data-cat="course"><p class="cert-issuer">Cydenium</p><h3>Ethical Hacking Masterclass</h3><span class="cert-type">Training program</span></div>
+      <div class="cert-card" data-cat="platform"><p class="cert-issuer">AWS</p><h3>Builder Center</h3><span class="cert-type">Cloud learning</span></div>
+      <div class="cert-card" data-cat="platform"><p class="cert-issuer">MoYAS · Govt. of India</p><h3>VBYLD Quiz</h3><span class="cert-type">National quiz</span></div>
     </div>
   </div>
 </section>
