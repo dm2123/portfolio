@@ -530,6 +530,59 @@
     wrap.hidden = false;
   }
 
+  /* ---------- CERTIFICATION FILTERS ---------- */
+  function initCertFilters() {
+    var bar = document.getElementById('certFilters');
+    if (!bar) return;
+    var chips = Array.prototype.slice.call(bar.querySelectorAll('.chip'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.cert-card'));
+    var D = reduced ? 0 : 180;
+    bar.hidden = false;
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        if (chip.classList.contains('is-active')) return;
+        chips.forEach(function (c) {
+          var on = c === chip;
+          c.classList.toggle('is-active', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        var f = chip.getAttribute('data-filter');
+        var visible = [];
+        cards.forEach(function (card) {
+          var show = f === 'all' || card.getAttribute('data-cat') === f;
+          card.classList.remove('is-in', 'is-shown');
+          card.style.transitionDelay = '';
+          if (show) {
+            card.hidden = false;
+            visible.push(card);
+          } else {
+            if (reduced || D === 0) {
+              card.hidden = true;
+            } else {
+              card.classList.add('is-out');
+              setTimeout(function () {
+                card.hidden = true;
+                card.classList.remove('is-out');
+              }, D);
+            }
+          }
+        });
+        if (reduced || D === 0) return;
+        visible.forEach(function (card, i) {
+          card.classList.add('is-in');
+          card.style.transitionDelay = (i * 45) + 'ms';
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () { card.classList.add('is-shown'); });
+          });
+          setTimeout(function () {
+            card.classList.remove('is-in', 'is-shown');
+            card.style.transitionDelay = '';
+          }, D + visible.length * 45 + 300);
+        });
+      });
+    });
+  }
+
   /* ---------- CONTACT FORM (mailto) ---------- */
   var form = document.getElementById('contactForm');
   if (form) {
@@ -554,6 +607,7 @@
   initStatusBar();
   initReadProgress();
   initVcard();
+  initCertFilters();
   if (document.readyState === 'complete') {
     gsapReveals();
   } else {
