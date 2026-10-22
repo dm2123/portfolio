@@ -583,6 +583,33 @@
     });
   }
 
+  /* ---------- BACK TO TOP (floating button) ----------
+     Scroll threshold ke neeche hone par dikhta hai. No-JS me `hidden` rehta hai
+     (nav me #top wordmark wese bhi hai). Hidden state me tab-focus nahi milta. */
+  function initToTop() {
+    var btn = document.getElementById('toTop');
+    if (!btn) return;
+    btn.hidden = false;
+    var SHOW_AT = 600, raf = null, visible = false;
+    function sync() {
+      raf = null;
+      var show = window.scrollY > SHOW_AT;
+      if (show !== visible) {
+        visible = show;
+        btn.classList.toggle('is-visible', show);
+        btn.setAttribute('aria-hidden', show ? 'false' : 'true');
+        btn.tabIndex = show ? 0 : -1;
+      }
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(sync); }
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', kick);
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    });
+    sync();
+  }
+
   /* ---------- CONTACT FORM (mailto) ---------- */
   var form = document.getElementById('contactForm');
   if (form) {
@@ -608,6 +635,7 @@
   initReadProgress();
   initVcard();
   initCertFilters();
+  initToTop();
   if (document.readyState === 'complete') {
     gsapReveals();
   } else {
