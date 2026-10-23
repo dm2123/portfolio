@@ -316,6 +316,8 @@ html.cursor-on,html.cursor-on *{cursor:none}
 
 /* ===== HERO 3D (Three.js WebGL canvas) + STATIC FALLBACK ===== */
 .hero-particles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+/* animated aurora + film grain (2D canvas, aurora.js; reduced-motion par blank rehta hai) */
+.hero-aurora{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .hero-fallback{position:absolute;inset:0;z-index:0;pointer-events:none;display:none;
   background:
     radial-gradient(620px 420px at 12% 18%, rgba(200,16,46,.10), transparent 70%),
