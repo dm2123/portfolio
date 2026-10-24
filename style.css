@@ -446,6 +446,24 @@ html.no-webgl .hero-particles{display:none}
 .work-link span{display:inline-block;transition:transform .2s}
 .work-link:hover span{transform:translateX(4px)}
 
+/* ===== TECH STACK PILLS (hover-expand) ===== */
+.stack{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.sp-prompt{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--volt);margin-right:2px}
+.spill{display:inline-flex;align-items:center;font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;
+  background:var(--cream-deep);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink-soft);cursor:default;
+  transition:border-color .25s,color .25s,background .25s,transform .25s}
+.sp-s{font-style:normal}
+.sp-f{font-style:normal;max-width:0;opacity:0;overflow:hidden;white-space:nowrap;padding-left:0;
+  transition:max-width .32s ease,opacity .25s ease,padding-left .32s ease}
+.spill:hover,.work-card:hover .spill,.work-card:focus-within .spill{border-color:var(--crimson);color:var(--crimson)}
+.spill:hover{transform:translateY(-2px)}
+.spill:hover .sp-f,.work-card:hover .sp-f,.work-card:focus-within .sp-f{max-width:15em;opacity:1;padding-left:6px}
+/* staggered expansion, pill by pill (prompt is child 1) */
+.work-card:hover .spill:nth-child(3) .sp-f,.work-card:focus-within .spill:nth-child(3) .sp-f{transition-delay:.06s}
+.work-card:hover .spill:nth-child(4) .sp-f,.work-card:focus-within .spill:nth-child(4) .sp-f{transition-delay:.12s}
+.work-card:hover .spill:nth-child(5) .sp-f,.work-card:focus-within .spill:nth-child(5) .sp-f{transition-delay:.18s}
+.work-card:hover .spill:nth-child(6) .sp-f,.work-card:focus-within .spill:nth-child(6) .sp-f{transition-delay:.24s}
+
 /* ===== CERTS ===== */
 .certs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .cert-card{background:var(--cream);border:1px solid var(--line);border-top:4px solid var(--crimson);padding:24px;transition:transform .25s}
