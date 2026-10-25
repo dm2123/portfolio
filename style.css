@@ -577,7 +577,59 @@ html.no-webgl .hero-particles{display:none}
   .intro-name{white-space:normal}
 }
 
-/* ===== REDUCED MOTION ===== */
+/* ===== PRINT STYLESHEET (Ctrl+P / Save as PDF) ===== */
+/* Screen par chhupa rehta hai, sirf print me dikhta hai (footer source line). */
+.print-only{display:none}
+@media print{
+  @page{size:A4;margin:16mm 15mm}
+  /* Dark theme bhi print me light ho (paper par kaala background nahi). */
+  html[data-theme="dark"]{
+    --cream:#ffffff;--cream-deep:#f5f1e8;--card:#ffffff;
+    --crimson:#C8102E;--crimson-dark:#9E0B23;
+    --ink:#111111;--ink-soft:#333333;--muted:#666666;--line:#cccccc;
+  }
+  *,*::before,*::after{
+    background:transparent!important;box-shadow:none!important;text-shadow:none!important;
+    animation:none!important;transition:none!important;
+  }
+  body{background:#fff!important;color:#111;padding-bottom:0;font-size:11pt;line-height:1.5}
+  .container{max-width:none;padding:0}
+  /* Sirf screen wali cheezein chhupao: nav, intro, canvas, deco, buttons, form. */
+  .intro,.nav,.read-progress,.cursor-dot,.cursor-ring,
+  .hero-aurora,.hero-particles,.hero-grain,.hero-deco,.hero-fallback,.photo-scan,
+  .marquee,.statusbar,.to-top,.theme-toggle,.hamburger,
+  .contact-form,.vcard-wrap,.cert-filters,.hero-cta,.footer-ticker,
+  .term-line,.term-result,.thumb-preview,.skill-card .bar{display:none!important}
+  .print-only{
+    display:block;margin-top:18px;padding-top:10px;border-top:1px solid #999;
+    font-family:var(--mono);font-size:9pt;color:#555;
+  }
+  /* Print layout: compact, single flow, photo chhoti side me. */
+  .hero{padding:10px 0 0}
+  .hero-grid{grid-template-columns:1fr 160px;gap:24px}
+  .hero-photo-wrap{max-width:160px}
+  .hero-title{font-size:24pt}
+  .sec-title{font-size:19pt}
+  .section{padding:22px 0}
+  .section-band{background:none}
+  .work-grid,.certs-grid,.skills-grid{grid-template-columns:1fr 1fr}
+  .skills-layout{grid-template-columns:1fr 1fr}
+  .about-grid,.contact-grid{grid-template-columns:1fr 1fr}
+  /* Card kabhi page ke beech me na toote; heading apne content se alag na ho. */
+  .work-card,.cert-card,.skill-card,.about-card,h2,h3{break-inside:avoid;break-after:avoid}
+  .work-card,.cert-card,.skill-card,.about-card{border:1px solid #bbb}
+  /* Paper par rang bachao: crimson accents + radar chart wahi dikhein. */
+  .fill,.mono-mark,.sec-no,.radar-poly{
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .mono-mark{background:#C8102E!important;color:#fff!important}
+  .sec-no{background:#111!important;color:#fff!important}
+  a{color:#111;text-decoration:underline}
+  /* Paper par link ka URL bhi dikhe (click nahi ho sakta) — mailto ko chhodkar. */
+  .work-link::after{content:" (" attr(href) ")";font-family:var(--mono);font-size:8.5pt;word-break:break-all}
+  .socials a::after{content:" (" attr(href) ")";font-family:var(--mono);font-size:8.5pt;word-break:break-all}
+  .contact-mail::after{content:""}
+}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   html{scroll-behavior:auto}
