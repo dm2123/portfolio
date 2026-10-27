@@ -580,6 +580,16 @@ html.no-webgl .hero-particles{display:none}
 /* ===== PRINT STYLESHEET (Ctrl+P / Save as PDF) ===== */
 /* Screen par chhupa rehta hai, sirf print me dikhta hai (footer source line). */
 .print-only{display:none}
+/* ===== TESTIMONIALS — DESIGN SYSTEM ONLY (2026-10-27) ===== */
+/* Koi section HTML me nahi hai: asli client words aane par hi .testimonials section
+   + .t-card markup jodega. Tab tak ye styles unused hain — koi fake quote nahi. */
+.testimonials{padding:64px 0}
+.t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.t-card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--crimson);padding:28px 26px}
+.t-card::before{content:"\201C";display:block;font-family:var(--serif);font-size:3rem;line-height:.6;color:var(--crimson);margin-bottom:12px}
+.t-quote{font-family:var(--serif);font-size:1.25rem;line-height:1.5;color:var(--ink)}
+.t-author{margin-top:18px;font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.t-author b{color:var(--crimson);font-weight:600}
 @media print{
   @page{size:A4;margin:16mm 15mm}
   /* Dark theme bhi print me light ho (paper par kaala background nahi). */
